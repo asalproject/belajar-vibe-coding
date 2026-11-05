@@ -17,13 +17,36 @@
       font-family: 'Plus Jakarta Sans', sans-serif;
     }
 
+    /* ============================================================
+       PROFESSIONAL CORPORATE DARK SLATE THEME
+       Palette: bg-slate-900 (#0f172a) · card-slate-800 (#1e293b)
+       Accent: Blue #2563eb · Emerald #10b981 · Subtle borders
+    ============================================================ */
+
+    /* Smooth focus rings */
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.35);
+    }
+
+    /* Scrollbar styling */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #0f172a; }
+    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #475569; }
+
+    /* Transition defaults */
+    button, input, select { transition: all 0.15s ease; }
+
     @media screen {
       .print-only {
         display: none !important;
       }
     }
 
-    /* Print & PDF Export Styling */
+    /* ============================================================
+       PRINT / PDF STYLING — Clean A4 Monochrome
+    ============================================================ */
     @media print {
       @page {
         size: A4 portrait;
@@ -33,7 +56,7 @@
       body {
         background-color: #ffffff !important;
         color: #0f172a !important;
-        font-size: 10pt !important;
+        font-size: 9pt !important;
       }
 
       .no-print, header, #form-transaction-container, #auth-modal, #toast, .sticky {
@@ -68,43 +91,104 @@
         padding: 0 !important;
       }
 
+      /* KPI Cards print layout */
+      #kpi-section {
+        margin-bottom: 14px !important;
+      }
+
       #kpi-cards-grid {
         display: grid !important;
         grid-template-columns: repeat(4, 1fr) !important;
-        gap: 10px !important;
-        margin-bottom: 16px !important;
+        gap: 8px !important;
+        margin-bottom: 12px !important;
       }
 
       #kpi-cards-grid > div {
         background: #f8fafc !important;
         border: 1px solid #cbd5e1 !important;
-        border-radius: 8px !important;
-        padding: 10px !important;
+        border-radius: 6px !important;
+        padding: 8px 10px !important;
         color: #0f172a !important;
+        overflow: hidden !important;
+        box-sizing: border-box !important;
       }
 
       #kpi-cards-grid * {
         color: #0f172a !important;
       }
 
+      /* KPI title inside card */
+      #kpi-cards-grid .text-xs {
+        font-size: 7.5pt !important;
+        font-weight: 700 !important;
+        line-height: 1.2 !important;
+        color: #475569 !important;
+      }
+
+      /* FIX: Kurangi ukuran font nominal angka pada kartu KPI di cetak PDF */
+      #kpi-cards-grid .text-2xl {
+        font-size: 11pt !important;
+        line-height: 1.3 !important;
+        font-weight: 800 !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        letter-spacing: -0.2px !important;
+      }
+
+      /* KPI subtitle / description */
+      #kpi-cards-grid .text-\[11px\] {
+        font-size: 7pt !important;
+        line-height: 1.2 !important;
+        color: #64748b !important;
+      }
+
+      /* Highlight Total Margin Badge / Pill in Print */
+      #kpi-cards-grid #stat-margin-pct,
+      #kpi-cards-grid #stat-margin-badge {
+        background-color: #dcfce7 !important;
+        color: #166534 !important;
+        border: 1px solid #86efac !important;
+        font-size: 7.5pt !important;
+        font-weight: 800 !important;
+        padding: 1px 5px !important;
+        border-radius: 4px !important;
+        display: inline-block !important;
+      }
+
+      /* Product & Status breakdown in print */
       #breakdown-grid {
         display: grid !important;
         grid-template-columns: repeat(2, 1fr) !important;
-        gap: 12px !important;
-        margin-bottom: 20px !important;
+        gap: 10px !important;
+        margin-bottom: 16px !important;
       }
 
       #breakdown-grid > div {
         background: #f8fafc !important;
         border: 1px solid #cbd5e1 !important;
-        border-radius: 8px !important;
-        padding: 10px !important;
+        border-radius: 6px !important;
+        padding: 8px 10px !important;
       }
 
       #breakdown-grid * {
         color: #0f172a !important;
       }
 
+      #breakdown-grid h3 {
+        font-size: 8.5pt !important;
+        margin-bottom: 6px !important;
+      }
+
+      #breakdown-grid .text-xs {
+        font-size: 8pt !important;
+      }
+
+      #breakdown-grid .text-lg {
+        font-size: 11pt !important;
+      }
+
+      /* Table Print Formatting */
       #tx-table-container {
         border: 1px solid #94a3b8 !important;
         border-radius: 6px !important;
@@ -120,16 +204,24 @@
         background-color: #f1f5f9 !important;
         color: #0f172a !important;
         border: 1px solid #cbd5e1 !important;
-        padding: 6px 8px !important;
+        padding: 5px 7px !important;
         font-weight: 700 !important;
-        font-size: 8.5pt !important;
+        font-size: 8pt !important;
       }
 
       td {
         border: 1px solid #e2e8f0 !important;
-        padding: 6px 8px !important;
+        padding: 5px 7px !important;
         color: #1e293b !important;
-        font-size: 8.5pt !important;
+        font-size: 8pt !important;
+      }
+
+      tfoot td {
+        background-color: #f1f5f9 !important;
+        color: #0f172a !important;
+        font-weight: 800 !important;
+        border-top: 2px solid #94a3b8 !important;
+        font-size: 8pt !important;
       }
 
       tr:nth-child(even) td {
@@ -138,44 +230,44 @@
 
       .badge-print {
         border: 1px solid #64748b !important;
-        padding: 2px 4px !important;
-        border-radius: 4px !important;
+        padding: 1px 4px !important;
+        border-radius: 3px !important;
         font-weight: 600 !important;
-        font-size: 8pt !important;
+        font-size: 7.5pt !important;
       }
     }
   </style>
 </head>
 <body class="bg-slate-900 text-slate-100 min-h-screen">
   <!-- Toast Notification -->
-  <div id="toast" class="fixed top-5 right-5 z-50 transform transition-all duration-300 translate-x-full opacity-0 max-w-sm rounded-xl p-4 shadow-2xl border flex items-center gap-3 no-print">
+  <div id="toast" class="fixed top-5 right-5 z-50 transform transition-all duration-300 translate-x-full opacity-0 max-w-sm rounded-lg p-4 shadow-xl border flex items-center gap-3 no-print">
     <div id="toast-icon"></div>
     <div>
-      <div id="toast-title" class="font-bold text-sm"></div>
-      <div id="toast-message" class="text-xs text-slate-300"></div>
+      <div id="toast-title" class="font-semibold text-sm"></div>
+      <div id="toast-message" class="text-xs text-slate-400 mt-0.5"></div>
     </div>
   </div>
 
   <!-- Header / Navbar -->
-  <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur sticky top-0 z-40 no-print">
+  <header class="border-b border-slate-700/60 bg-slate-900 sticky top-0 z-40 no-print">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
       <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-sky-500 to-indigo-600 flex items-center justify-center text-xl shadow-lg shadow-sky-500/20">
+        <div class="w-9 h-9 rounded-lg bg-blue-600 flex items-center justify-center text-lg shadow-sm">
           ✈️
         </div>
         <div>
-          <h1 class="text-base font-bold bg-gradient-to-r from-sky-400 via-indigo-300 to-emerald-400 bg-clip-text text-transparent">
+          <h1 class="text-sm font-bold text-white tracking-tight">
             AeroStay Finance
           </h1>
-          <p class="text-[11px] text-slate-400">Pencatatan Keuangan Tiket Pesawat & Hotel</p>
+          <p class="text-[11px] text-slate-400">Manajemen Keuangan Agen Perjalanan</p>
         </div>
       </div>
 
-      <div class="flex items-center gap-4">
+      <div class="flex items-center gap-3">
         <!-- API Connection Status -->
-        <div class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-800/80 border border-slate-700/60 text-xs">
-          <span id="api-dot" class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
-          <span id="api-status-text" class="text-slate-300 font-medium">API: localhost:3000</span>
+        <div class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-md bg-slate-800 border border-slate-700 text-xs">
+          <span id="api-dot" class="w-2 h-2 rounded-full bg-emerald-500"></span>
+          <span id="api-status-text" class="text-slate-400 font-medium">localhost:3000</span>
         </div>
 
         <!-- Auth Section -->
@@ -184,11 +276,11 @@
             <div id="user-name" class="text-xs font-semibold text-slate-200">User</div>
             <div id="user-email" class="text-[11px] text-slate-400">user@example.com</div>
           </div>
-          <button onclick="handleLogout()" class="px-3 py-1.5 text-xs font-medium bg-rose-500/10 text-rose-400 border border-rose-500/20 hover:bg-rose-500/20 rounded-lg transition">
+          <button onclick="handleLogout()" class="px-3 py-1.5 text-xs font-medium text-slate-300 border border-slate-600 hover:border-rose-500/60 hover:text-rose-400 rounded-md transition">
             Keluar
           </button>
         </div>
-        <button id="btn-open-auth" onclick="openAuthModal()" class="px-4 py-2 text-xs font-semibold bg-gradient-to-r from-sky-500 to-indigo-600 hover:from-sky-400 hover:to-indigo-500 text-white rounded-lg shadow-lg shadow-sky-500/25 transition">
+        <button id="btn-open-auth" onclick="openAuthModal()" class="px-4 py-2 text-xs font-semibold bg-blue-600 hover:bg-blue-500 text-white rounded-md shadow-sm transition">
           Masuk / Daftar
         </button>
       </div>
@@ -199,17 +291,20 @@
   <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
     
     <!-- Printable Header (Only displayed during Print / PDF generation) -->
-    <div class="print-only mb-6 pb-4 border-b-2 border-slate-800">
+    <div class="print-only mb-5 pb-3 border-b-2 border-slate-800">
       <div class="flex justify-between items-start">
         <div>
-          <div class="text-xs font-bold text-slate-500 uppercase tracking-widest">AeroStay Finance Platform</div>
-          <h1 class="text-2xl font-black text-slate-900 uppercase">Laporan Ringkasan Keuangan & Transaksi</h1>
-          <p class="text-xs text-slate-600 mt-1">Pencatatan Penjualan Tiket Pesawat & Reservasi Hotel</p>
+          <div class="text-[9pt] font-bold text-slate-500 uppercase tracking-widest">AeroStay Finance Platform</div>
+          <h1 class="text-xl font-black text-slate-900 uppercase tracking-tight">Laporan Ringkasan Keuangan & Transaksi</h1>
+          <p class="text-[8.5pt] text-slate-600 mt-0.5">Pencatatan Penjualan Tiket Pesawat & Reservasi Hotel</p>
         </div>
-        <div class="text-right text-xs text-slate-600 space-y-1">
+        <div class="text-right text-[8.5pt] text-slate-700 space-y-1">
           <div><strong>Tanggal Cetak:</strong> <span id="print-timestamp">-</span></div>
           <div><strong>Akun Pengguna:</strong> <span id="print-user-name">-</span></div>
-          <div><strong>Status Verifikasi:</strong> Terhubung Database</div>
+          <div class="flex items-center justify-end gap-1.5 pt-0.5">
+            <span class="font-bold text-slate-800">Total Margin Keuntungan:</span>
+            <span id="print-total-margin" class="font-black text-emerald-800 bg-emerald-100 border border-emerald-400 px-2 py-0.5 rounded text-[9pt]">0%</span>
+          </div>
         </div>
       </div>
     </div>
@@ -217,154 +312,152 @@
     <!-- KPI Summary Cards -->
     <section id="kpi-section">
       <div class="flex items-center justify-between mb-4 no-print">
-        <h2 class="text-lg font-bold text-slate-100 flex items-center gap-2">
-          <span>📊</span> Ringkasan Laba-Rugi Bisnis
+        <h2 class="text-sm font-bold text-slate-200 flex items-center gap-2">
+          <svg class="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+          Ringkasan Laba-Rugi
         </h2>
-        <button onclick="loadDashboardData()" class="flex items-center gap-1.5 text-xs text-sky-400 hover:text-sky-300 font-medium transition">
+        <button onclick="loadDashboardData()" class="flex items-center gap-1.5 text-xs text-slate-400 hover:text-slate-200 font-medium transition px-2 py-1 rounded-md hover:bg-slate-800 border border-transparent hover:border-slate-700">
           <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
-          Perbarui Data
+          Perbarui
         </button>
       </div>
 
-      <div id="kpi-cards-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+      <div id="kpi-cards-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <!-- Card 1: Total Pendapatan -->
-        <div class="bg-slate-800/60 border border-slate-700/60 rounded-2xl p-5 relative overflow-hidden backdrop-blur">
-          <div class="absolute -right-4 -bottom-4 w-20 h-20 bg-sky-500/10 rounded-full blur-xl pointer-events-none no-print"></div>
-          <div class="flex items-center justify-between text-slate-400 mb-2">
-            <span class="text-xs font-semibold uppercase tracking-wider">Total Pendapatan</span>
-            <span class="p-2 rounded-xl bg-sky-500/10 text-sky-400 text-sm no-print">💰</span>
+        <div class="bg-slate-800 border border-slate-700 rounded-xl p-5">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Total Pendapatan</span>
+            <span class="w-8 h-8 rounded-lg bg-blue-600/15 flex items-center justify-center text-sm no-print">💰</span>
           </div>
-          <div id="stat-pendapatan" class="text-2xl font-extrabold text-white">Rp 0</div>
-          <div class="text-[11px] text-slate-400 mt-2 flex items-center gap-1">
-            <span>Dari total harga jual</span>
-          </div>
+          <div id="stat-pendapatan" class="text-2xl font-bold text-white">Rp 0</div>
+          <div class="text-[11px] text-slate-500 mt-2">Dari total harga jual</div>
         </div>
 
         <!-- Card 2: Total Modal -->
-        <div class="bg-slate-800/60 border border-slate-700/60 rounded-2xl p-5 relative overflow-hidden backdrop-blur">
-          <div class="absolute -right-4 -bottom-4 w-20 h-20 bg-indigo-500/10 rounded-full blur-xl pointer-events-none no-print"></div>
-          <div class="flex items-center justify-between text-slate-400 mb-2">
-            <span class="text-xs font-semibold uppercase tracking-wider">Total Modal</span>
-            <span class="p-2 rounded-xl bg-indigo-500/10 text-indigo-400 text-sm no-print">🏷️</span>
+        <div class="bg-slate-800 border border-slate-700 rounded-xl p-5">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Total Modal</span>
+            <span class="w-8 h-8 rounded-lg bg-slate-600/40 flex items-center justify-center text-sm no-print">🏷️</span>
           </div>
-          <div id="stat-modal" class="text-2xl font-extrabold text-white">Rp 0</div>
-          <div class="text-[11px] text-slate-400 mt-2 flex items-center gap-1">
-            <span>Total harga pokok/modal</span>
-          </div>
+          <div id="stat-modal" class="text-2xl font-bold text-white">Rp 0</div>
+          <div class="text-[11px] text-slate-500 mt-2">Total harga pokok/modal</div>
         </div>
 
-        <!-- Card 3: Total Laba Bersih -->
-        <div class="bg-gradient-to-br from-emerald-950/40 to-slate-800/80 border border-emerald-500/30 rounded-2xl p-5 relative overflow-hidden backdrop-blur shadow-lg shadow-emerald-500/5">
-          <div class="absolute -right-4 -bottom-4 w-20 h-20 bg-emerald-500/20 rounded-full blur-xl pointer-events-none no-print"></div>
-          <div class="flex items-center justify-between text-slate-400 mb-2">
-            <span class="text-xs font-semibold uppercase tracking-wider text-emerald-400">Total Laba Bersih</span>
-            <span class="p-2 rounded-xl bg-emerald-500/20 text-emerald-400 text-sm no-print">📈</span>
+        <!-- Card 3: Total Laba Bersih & Indikator Total Margin (%) -->
+        <div class="bg-slate-800 border border-emerald-700/40 rounded-xl p-5">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-xs font-semibold text-emerald-400 uppercase tracking-wider">Total Laba Bersih</span>
+            <!-- Indikator Margin Badge -->
+            <span id="stat-margin-badge" class="px-2 py-0.5 rounded-md text-xs font-semibold bg-emerald-900/50 text-emerald-300 border border-emerald-700/60 flex items-center gap-1">
+              <span>Margin:</span>
+              <span id="stat-margin-pct-badge">0%</span>
+            </span>
           </div>
-          <div id="stat-laba" class="text-2xl font-black text-emerald-400">Rp 0</div>
-          <div class="text-[11px] text-emerald-300/80 mt-2 flex items-center gap-1.5 font-medium">
-            <span id="stat-margin-pct" class="px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300">0%</span>
-            <span>Margin Keuntungan</span>
+          <div id="stat-laba" class="text-2xl font-bold text-emerald-400">Rp 0</div>
+          <div class="text-[11px] mt-2 flex items-center justify-between">
+            <span class="text-slate-500">Total Margin Bersih:</span>
+            <span id="stat-margin-pct" class="px-1.5 py-0.5 rounded bg-emerald-900/40 text-emerald-300 font-bold text-xs border border-emerald-700/40">0%</span>
           </div>
         </div>
 
         <!-- Card 4: Total Transaksi -->
-        <div class="bg-slate-800/60 border border-slate-700/60 rounded-2xl p-5 relative overflow-hidden backdrop-blur">
-          <div class="absolute -right-4 -bottom-4 w-20 h-20 bg-purple-500/10 rounded-full blur-xl pointer-events-none no-print"></div>
-          <div class="flex items-center justify-between text-slate-400 mb-2">
-            <span class="text-xs font-semibold uppercase tracking-wider">Total Transaksi</span>
-            <span class="p-2 rounded-xl bg-purple-500/10 text-purple-400 text-sm no-print">📋</span>
+        <div class="bg-slate-800 border border-slate-700 rounded-xl p-5">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Total Transaksi</span>
+            <span class="w-8 h-8 rounded-lg bg-violet-600/15 flex items-center justify-center text-sm no-print">📋</span>
           </div>
-          <div id="stat-transaksi" class="text-2xl font-extrabold text-white">0</div>
-          <div class="text-[11px] text-slate-400 mt-2 flex items-center gap-1">
-            <span>Transaksi tercatat</span>
-          </div>
+          <div id="stat-transaksi" class="text-2xl font-bold text-white">0</div>
+          <div class="text-[11px] text-slate-500 mt-2">Transaksi tercatat</div>
         </div>
       </div>
     </section>
 
     <!-- Product & Status Breakdown -->
-    <section id="breakdown-grid" class="grid grid-cols-1 md:grid-cols-2 gap-5">
+    <section id="breakdown-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <!-- Breakdown Produk -->
-      <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-5">
-        <h3 class="text-sm font-bold text-slate-200 mb-3 flex items-center gap-2">
-          <span>📦</span> Performa Produk (Pesawat vs Hotel)
+      <div class="bg-slate-800 border border-slate-700 rounded-xl p-5">
+        <h3 class="text-sm font-semibold text-slate-300 mb-4 flex items-center gap-2">
+          <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+          Performa Produk
         </h3>
         <div id="product-breakdown-list" class="space-y-3">
-          <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-800 flex items-center justify-between">
+          <div class="p-3 bg-slate-900/70 rounded-lg border border-slate-700/60 flex items-center justify-between">
             <div class="flex items-center gap-2.5">
-              <span class="text-xl">✈️</span>
+              <span class="text-lg">✈️</span>
               <div>
-                <div class="text-xs font-bold text-slate-200">Tiket Pesawat</div>
-                <div id="pesawat-count" class="text-[11px] text-slate-400">0 transaksi</div>
+                <div class="text-xs font-semibold text-slate-200">Tiket Pesawat</div>
+                <div id="pesawat-count" class="text-[11px] text-slate-500">0 transaksi</div>
               </div>
             </div>
             <div class="text-right">
               <div id="pesawat-margin" class="text-xs font-bold text-emerald-400">Rp 0</div>
-              <div class="text-[10px] text-slate-400">Laba</div>
+              <div class="text-[10px] text-slate-500">Laba</div>
             </div>
           </div>
 
-          <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-800 flex items-center justify-between">
+          <div class="p-3 bg-slate-900/70 rounded-lg border border-slate-700/60 flex items-center justify-between">
             <div class="flex items-center gap-2.5">
-              <span class="text-xl">🏨</span>
+              <span class="text-lg">🏨</span>
               <div>
-                <div class="text-xs font-bold text-slate-200">Voucher Hotel</div>
-                <div id="hotel-count" class="text-[11px] text-slate-400">0 transaksi</div>
+                <div class="text-xs font-semibold text-slate-200">Voucher Hotel</div>
+                <div id="hotel-count" class="text-[11px] text-slate-500">0 transaksi</div>
               </div>
             </div>
             <div class="text-right">
               <div id="hotel-margin" class="text-xs font-bold text-emerald-400">Rp 0</div>
-              <div class="text-[10px] text-slate-400">Laba</div>
+              <div class="text-[10px] text-slate-500">Laba</div>
             </div>
           </div>
         </div>
       </div>
 
       <!-- Breakdown Status Pembayaran -->
-      <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-5">
-        <h3 class="text-sm font-bold text-slate-200 mb-3 flex items-center gap-2">
-          <span>💳</span> Status Pembayaran Pelanggan
+      <div class="bg-slate-800 border border-slate-700 rounded-xl p-5">
+        <h3 class="text-sm font-semibold text-slate-300 mb-4 flex items-center gap-2">
+          <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>
+          Status Pembayaran
         </h3>
         <div id="status-breakdown-list" class="grid grid-cols-3 gap-3">
-          <div class="p-3 bg-slate-900/60 rounded-xl border border-emerald-500/20 text-center">
-            <div class="text-xs font-bold text-emerald-400">Lunas</div>
-            <div id="status-lunas-count" class="text-lg font-extrabold text-white mt-1">0</div>
-            <div id="status-lunas-total" class="text-[10px] text-slate-400 mt-0.5">Rp 0</div>
+          <div class="p-3 bg-slate-900/70 rounded-lg border border-slate-700/60 text-center">
+            <div class="text-[10px] font-semibold text-emerald-400 uppercase tracking-wide mb-1">Lunas</div>
+            <div id="status-lunas-count" class="text-lg font-bold text-white">0</div>
+            <div id="status-lunas-total" class="text-[10px] text-slate-500 mt-0.5">Rp 0</div>
           </div>
-          <div class="p-3 bg-slate-900/60 rounded-xl border border-amber-500/20 text-center">
-            <div class="text-xs font-bold text-amber-400">DP (Uang Muka)</div>
-            <div id="status-dp-count" class="text-lg font-extrabold text-white mt-1">0</div>
-            <div id="status-dp-total" class="text-[10px] text-slate-400 mt-0.5">Rp 0</div>
+          <div class="p-3 bg-slate-900/70 rounded-lg border border-slate-700/60 text-center">
+            <div class="text-[10px] font-semibold text-amber-400 uppercase tracking-wide mb-1">DP</div>
+            <div id="status-dp-count" class="text-lg font-bold text-white">0</div>
+            <div id="status-dp-total" class="text-[10px] text-slate-500 mt-0.5">Rp 0</div>
           </div>
-          <div class="p-3 bg-slate-900/60 rounded-xl border border-rose-500/20 text-center">
-            <div class="text-xs font-bold text-rose-400">Belum Lunas</div>
-            <div id="status-belum-count" class="text-lg font-extrabold text-white mt-1">0</div>
-            <div id="status-belum-total" class="text-[10px] text-slate-400 mt-0.5">Rp 0</div>
+          <div class="p-3 bg-slate-900/70 rounded-lg border border-slate-700/60 text-center">
+            <div class="text-[10px] font-semibold text-rose-400 uppercase tracking-wide mb-1">Belum</div>
+            <div id="status-belum-count" class="text-lg font-bold text-white">0</div>
+            <div id="status-belum-total" class="text-[10px] text-slate-500 mt-0.5">Rp 0</div>
           </div>
         </div>
       </div>
     </section>
 
     <!-- Main Workspace: Form & Transactions Table -->
-    <div id="workspace-grid" class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+    <div id="workspace-grid" class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
       
       <!-- Left Column: Input Form (5 cols) -->
-      <section id="form-transaction-container" class="lg:col-span-5 bg-slate-800/60 border border-slate-700/60 rounded-2xl p-6 backdrop-blur shadow-xl sticky top-24 no-print">
-        <h2 class="text-base font-bold text-slate-100 mb-1 flex items-center gap-2">
-          <span>📝</span> Catat Transaksi Baru
+      <section id="form-transaction-container" class="lg:col-span-5 bg-slate-800 border border-slate-700 rounded-xl p-6 shadow-sm sticky top-24 no-print">
+        <h2 class="text-sm font-bold text-slate-200 mb-1 flex items-center gap-2">
+          <svg class="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+          Catat Transaksi Baru
         </h2>
-        <p class="text-xs text-slate-400 mb-5">Input penjualan tiket pesawat atau reservasi hotel</p>
+        <p class="text-xs text-slate-500 mb-5">Input penjualan tiket pesawat atau reservasi hotel</p>
 
         <form id="form-transaction" onsubmit="handleCreateTransaction(event)" class="space-y-4">
           <!-- Tanggal & Jenis Produk -->
           <div class="grid grid-cols-2 gap-3">
             <div>
-              <label class="block text-xs font-semibold text-slate-300 mb-1">Tanggal</label>
-              <input type="date" id="tx-tanggal" required class="w-full bg-slate-900/80 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-sky-500">
+              <label class="block text-xs font-medium text-slate-400 mb-1.5">Tanggal</label>
+              <input type="date" id="tx-tanggal" required class="w-full bg-slate-900 border border-slate-600 rounded-lg px-3 py-2 text-xs text-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20">
             </div>
             <div>
-              <label class="block text-xs font-semibold text-slate-300 mb-1">Jenis Produk</label>
-              <select id="tx-produk" class="w-full bg-slate-900/80 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-sky-500">
+              <label class="block text-xs font-medium text-slate-400 mb-1.5">Jenis Produk</label>
+              <select id="tx-produk" class="w-full bg-slate-900 border border-slate-600 rounded-lg px-3 py-2 text-xs text-slate-200 focus:border-blue-500">
                 <option value="tiket_pesawat">✈️ Tiket Pesawat</option>
                 <option value="hotel">🏨 Hotel</option>
               </select>
@@ -373,59 +466,59 @@
 
           <!-- Nama Pelanggan -->
           <div>
-            <label class="block text-xs font-semibold text-slate-300 mb-1">Nama Pelanggan</label>
-            <input type="text" id="tx-nama" required placeholder="Contoh: Budi Santoso" class="w-full bg-slate-900/80 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-sky-500">
+            <label class="block text-xs font-medium text-slate-400 mb-1.5">Nama Pelanggan</label>
+            <input type="text" id="tx-nama" required placeholder="Contoh: Budi Santoso" class="w-full bg-slate-900 border border-slate-600 rounded-lg px-3 py-2 text-xs text-slate-200 placeholder-slate-600 focus:border-blue-500">
           </div>
 
           <!-- Kode Booking -->
           <div>
-            <label class="block text-xs font-semibold text-slate-300 mb-1">Kode Booking / PNR</label>
-            <input type="text" id="tx-kode" required placeholder="Contoh: GA-821-SUB atau HTL-MARRIOTT" class="w-full bg-slate-900/80 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-sky-500 uppercase">
+            <label class="block text-xs font-medium text-slate-400 mb-1.5">Kode Booking / PNR</label>
+            <input type="text" id="tx-kode" required placeholder="Contoh: GA-821-SUB atau HTL-MARRIOTT" class="w-full bg-slate-900 border border-slate-600 rounded-lg px-3 py-2 text-xs text-slate-200 placeholder-slate-600 focus:border-blue-500 uppercase">
           </div>
 
           <!-- Harga Modal & Harga Jual -->
           <div class="grid grid-cols-2 gap-3">
             <div>
-              <label class="block text-xs font-semibold text-slate-300 mb-1">Harga Modal (Rp)</label>
-              <input type="number" id="tx-modal" min="0" required placeholder="0" oninput="updateMarginPreview()" class="w-full bg-slate-900/80 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-sky-500">
+              <label class="block text-xs font-medium text-slate-400 mb-1.5">Harga Modal (Rp)</label>
+              <input type="number" id="tx-modal" min="0" required placeholder="0" oninput="updateMarginPreview()" class="w-full bg-slate-900 border border-slate-600 rounded-lg px-3 py-2 text-xs text-slate-200 placeholder-slate-600 focus:border-blue-500">
             </div>
             <div>
-              <label class="block text-xs font-semibold text-slate-300 mb-1">Harga Jual (Rp)</label>
-              <input type="number" id="tx-jual" min="0" required placeholder="0" oninput="updateMarginPreview()" class="w-full bg-slate-900/80 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-sky-500">
+              <label class="block text-xs font-medium text-slate-400 mb-1.5">Harga Jual (Rp)</label>
+              <input type="number" id="tx-jual" min="0" required placeholder="0" oninput="updateMarginPreview()" class="w-full bg-slate-900 border border-slate-600 rounded-lg px-3 py-2 text-xs text-slate-200 placeholder-slate-600 focus:border-blue-500">
             </div>
           </div>
 
           <!-- Live Margin Calculation Preview Box -->
-          <div id="margin-preview-box" class="p-3.5 rounded-xl bg-slate-900/90 border border-slate-800 transition">
+          <div id="margin-preview-box" class="p-3.5 rounded-lg bg-slate-900/80 border border-slate-700">
             <div class="flex items-center justify-between text-xs">
-              <span class="text-slate-400">Estimasi Margin (Laba):</span>
+              <span class="text-slate-500">Estimasi Margin (Laba):</span>
               <span id="preview-margin-val" class="font-bold text-emerald-400">Rp 0</span>
             </div>
-            <div class="flex items-center justify-between text-[11px] text-slate-500 mt-1">
+            <div class="flex items-center justify-between text-[11px] text-slate-600 mt-1">
               <span>Margin Keuntungan:</span>
-              <span id="preview-margin-pct" class="font-semibold text-slate-400">0%</span>
+              <span id="preview-margin-pct" class="font-semibold text-slate-500">0%</span>
             </div>
           </div>
 
           <!-- Status Pembayaran -->
           <div>
-            <label class="block text-xs font-semibold text-slate-300 mb-1">Status Pembayaran</label>
+            <label class="block text-xs font-medium text-slate-400 mb-1.5">Status Pembayaran</label>
             <div class="grid grid-cols-3 gap-2">
               <label class="cursor-pointer">
                 <input type="radio" name="tx-status" value="lunas" checked class="peer sr-only">
-                <div class="p-2 text-center rounded-xl border border-slate-700 text-xs text-slate-400 peer-checked:border-emerald-500 peer-checked:bg-emerald-500/10 peer-checked:text-emerald-400 font-semibold transition">
+                <div class="p-2 text-center rounded-lg border border-slate-700 text-xs text-slate-500 peer-checked:border-emerald-600 peer-checked:bg-emerald-900/30 peer-checked:text-emerald-300 font-semibold transition">
                   Lunas
                 </div>
               </label>
               <label class="cursor-pointer">
                 <input type="radio" name="tx-status" value="dp" class="peer sr-only">
-                <div class="p-2 text-center rounded-xl border border-slate-700 text-xs text-slate-400 peer-checked:border-amber-500 peer-checked:bg-amber-500/10 peer-checked:text-amber-400 font-semibold transition">
+                <div class="p-2 text-center rounded-lg border border-slate-700 text-xs text-slate-500 peer-checked:border-amber-600 peer-checked:bg-amber-900/30 peer-checked:text-amber-300 font-semibold transition">
                   DP
                 </div>
               </label>
               <label class="cursor-pointer">
                 <input type="radio" name="tx-status" value="belum_lunas" class="peer sr-only">
-                <div class="p-2 text-center rounded-xl border border-slate-700 text-xs text-slate-400 peer-checked:border-rose-500 peer-checked:bg-rose-500/10 peer-checked:text-rose-400 font-semibold transition">
+                <div class="p-2 text-center rounded-lg border border-slate-700 text-xs text-slate-500 peer-checked:border-rose-600 peer-checked:bg-rose-900/30 peer-checked:text-rose-300 font-semibold transition">
                   Belum
                 </div>
               </label>
@@ -433,49 +526,49 @@
           </div>
 
           <!-- Submit Button -->
-          <button type="submit" id="btn-submit-tx" class="w-full mt-2 py-2.5 px-4 bg-gradient-to-r from-sky-500 to-indigo-600 hover:from-sky-400 hover:to-indigo-500 text-white font-bold text-xs rounded-xl shadow-lg shadow-sky-500/20 transition flex items-center justify-center gap-2">
-            <span>💾</span> Simpan Transaksi
+          <button type="submit" id="btn-submit-tx" class="w-full mt-2 py-2.5 px-4 bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs rounded-lg shadow-sm transition flex items-center justify-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+            Simpan Transaksi
           </button>
         </form>
       </section>
 
       <!-- Right Column: Transactions Table (7 cols) -->
-      <section id="tx-table-section" class="lg:col-span-7 bg-slate-800/60 border border-slate-700/60 rounded-2xl p-6 backdrop-blur shadow-xl">
+      <section id="tx-table-section" class="lg:col-span-7 bg-slate-800 border border-slate-700 rounded-xl p-6 shadow-sm">
         
         <!-- Header with Title and Action Toolbar -->
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 no-print">
           <div>
-            <h2 class="text-base font-bold text-slate-100 flex items-center gap-2">
-              <span>📋</span> Riwayat Transaksi
+            <h2 class="text-sm font-bold text-slate-200 flex items-center gap-2">
+              <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+              Riwayat Transaksi
             </h2>
-            <p id="tx-count-sub" class="text-xs text-slate-400">Memuat transaksi...</p>
+            <p id="tx-count-sub" class="text-xs text-slate-500 mt-0.5">Memuat transaksi...</p>
           </div>
 
           <!-- Export Report Buttons (Excel & PDF) -->
           <div class="flex flex-wrap items-center gap-2">
-            <button onclick="exportToExcel()" id="btn-export-excel" title="Unduh semua baris transaksi ke format spreadsheet Excel" class="flex items-center gap-1.5 px-3 py-1.5 bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 border border-emerald-500/40 rounded-xl text-xs font-semibold shadow-sm transition active:scale-95">
-              <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-              <span>Ekspor Excel (.xlsx)</span>
+            <button onclick="exportToExcel()" id="btn-export-excel" title="Unduh semua baris transaksi ke format spreadsheet Excel" class="flex items-center gap-1.5 px-3 py-1.5 bg-emerald-900/40 hover:bg-emerald-900/60 text-emerald-300 border border-emerald-700/60 rounded-md text-xs font-medium transition">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+              <span>Ekspor Excel</span>
             </button>
-            <button onclick="printReportPDF()" id="btn-print-pdf" title="Cetak atau simpan laporan lengkap sebagai file PDF" class="flex items-center gap-1.5 px-3 py-1.5 bg-sky-600/20 hover:bg-sky-600/30 text-sky-300 border border-sky-500/40 rounded-xl text-xs font-semibold shadow-sm transition active:scale-95">
-              <svg class="w-4 h-4 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
-              <span>Cetak Laporan PDF</span>
+            <button onclick="printReportPDF()" id="btn-print-pdf" title="Cetak atau simpan laporan lengkap sebagai file PDF" class="flex items-center gap-1.5 px-3 py-1.5 bg-slate-700/60 hover:bg-slate-700 text-slate-300 border border-slate-600 rounded-md text-xs font-medium transition">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
+              <span>Cetak PDF</span>
             </button>
           </div>
         </div>
 
         <!-- Filter Row -->
         <div class="flex items-center justify-between gap-2 mb-4 pt-3 border-t border-slate-700/60 no-print">
-          <div class="text-xs text-slate-400 flex items-center gap-1.5">
-            <span>Filter Transaksi:</span>
-          </div>
+          <div class="text-xs text-slate-500">Filter:</div>
           <div class="flex items-center gap-2">
-            <select id="filter-produk" onchange="loadTransactions()" class="bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-slate-300 focus:outline-none focus:border-sky-500">
+            <select id="filter-produk" onchange="loadTransactions()" class="bg-slate-900 border border-slate-600 rounded-md px-2.5 py-1.5 text-xs text-slate-300 focus:border-blue-500">
               <option value="">Semua Produk</option>
               <option value="tiket_pesawat">✈️ Pesawat</option>
               <option value="hotel">🏨 Hotel</option>
             </select>
-            <select id="filter-status" onchange="loadTransactions()" class="bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-slate-300 focus:outline-none focus:border-sky-500">
+            <select id="filter-status" onchange="loadTransactions()" class="bg-slate-900 border border-slate-600 rounded-md px-2.5 py-1.5 text-xs text-slate-300 focus:border-blue-500">
               <option value="">Semua Status</option>
               <option value="lunas">Lunas</option>
               <option value="dp">DP</option>
@@ -490,9 +583,9 @@
         </div>
 
         <!-- Table Container -->
-        <div id="tx-table-container" class="overflow-x-auto rounded-xl border border-slate-700/60">
+        <div id="tx-table-container" class="overflow-x-auto rounded-lg border border-slate-700/60">
           <table class="w-full text-left text-xs">
-            <thead class="bg-slate-900/90 text-slate-400 border-b border-slate-700/80 font-semibold">
+            <thead class="bg-slate-900/80 text-slate-400 border-b border-slate-700 font-semibold">
               <tr>
                 <th class="p-3">Tanggal</th>
                 <th class="p-3">Produk</th>
@@ -503,13 +596,16 @@
                 <th class="p-3 text-center">Status</th>
               </tr>
             </thead>
-            <tbody id="tx-table-body" class="divide-y divide-slate-800 text-slate-200">
+            <tbody id="tx-table-body" class="divide-y divide-slate-800/80 text-slate-200">
               <tr>
-                <td colspan="7" class="p-8 text-center text-slate-400">
+                <td colspan="7" class="p-8 text-center text-slate-500">
                   <div class="animate-pulse">Memuat data transaksi dari API...</div>
                 </td>
               </tr>
             </tbody>
+            <tfoot id="tx-table-foot" class="bg-slate-900/80 text-slate-200 border-t-2 border-slate-700 font-semibold text-xs">
+              <!-- Diisi otomatis oleh loadTransactions() -->
+            </tfoot>
           </table>
         </div>
 
@@ -533,16 +629,16 @@
   </main>
 
   <!-- Auth Modal (Login / Register / Reset Password) -->
-  <div id="auth-modal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 hidden no-print">
-    <div class="bg-slate-800 border border-slate-700 rounded-2xl max-w-md w-full p-6 shadow-2xl relative">
-      <button onclick="closeAuthModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-lg">✕</button>
+  <div id="auth-modal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 hidden no-print">
+    <div class="bg-slate-800 border border-slate-700 rounded-xl max-w-md w-full p-6 shadow-2xl relative">
+      <button onclick="closeAuthModal()" class="absolute top-4 right-4 text-slate-500 hover:text-slate-200 transition text-lg leading-none">✕</button>
 
       <!-- Modal Tabs (Login & Register) -->
       <div id="auth-modal-tabs" class="flex border-b border-slate-700 mb-5">
-        <button id="tab-login" onclick="switchAuthTab('login')" class="flex-1 pb-3 text-xs font-bold border-b-2 border-sky-500 text-sky-400 transition">
+        <button id="tab-login" onclick="switchAuthTab('login')" class="flex-1 pb-3 text-xs font-bold border-b-2 border-blue-500 text-blue-400 transition">
           Masuk (Login)
         </button>
-        <button id="tab-register" onclick="switchAuthTab('register')" class="flex-1 pb-3 text-xs font-bold border-b-2 border-transparent text-slate-400 hover:text-slate-200 transition">
+        <button id="tab-register" onclick="switchAuthTab('register')" class="flex-1 pb-3 text-xs font-bold border-b-2 border-transparent text-slate-500 hover:text-slate-300 transition">
           Daftar Akun
         </button>
       </div>
@@ -550,25 +646,25 @@
       <!-- Login Form -->
       <form id="form-login" onsubmit="handleLogin(event)" class="space-y-4">
         <div>
-          <label class="block text-xs font-semibold text-slate-300 mb-1">Email</label>
-          <input type="email" id="login-email" required placeholder="nama@email.com" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-sky-500">
+          <label class="block text-xs font-medium text-slate-400 mb-1.5">Email</label>
+          <input type="email" id="login-email" required placeholder="nama@email.com" class="w-full bg-slate-900 border border-slate-600 rounded-lg px-3 py-2 text-xs text-slate-200 focus:border-blue-500">
         </div>
         <div>
-          <div class="flex items-center justify-between mb-1">
-            <label class="block text-xs font-semibold text-slate-300">Password</label>
+          <div class="flex items-center justify-between mb-1.5">
+            <label class="block text-xs font-medium text-slate-400">Password</label>
             <!-- Lupa Password Link -->
-            <button type="button" onclick="switchAuthTab('reset-password')" class="text-[11px] text-sky-400 hover:text-sky-300 font-medium transition">
+            <button type="button" onclick="switchAuthTab('reset-password')" class="text-[11px] text-blue-400 hover:text-blue-300 font-medium transition">
               Lupa Password?
             </button>
           </div>
-          <input type="password" id="login-password" required placeholder="••••••••" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-sky-500">
+          <input type="password" id="login-password" required placeholder="••••••••" class="w-full bg-slate-900 border border-slate-600 rounded-lg px-3 py-2 text-xs text-slate-200 focus:border-blue-500">
         </div>
-        <button type="submit" class="w-full py-2.5 bg-sky-500 hover:bg-sky-400 text-white font-bold text-xs rounded-xl shadow-lg shadow-sky-500/20 transition">
+        <button type="submit" class="w-full py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs rounded-lg shadow-sm transition">
           Masuk
         </button>
         
         <div class="pt-2 border-t border-slate-700/60">
-          <button type="button" onclick="quickDemoLogin()" class="w-full py-2 bg-slate-700/50 hover:bg-slate-700 text-slate-300 text-xs rounded-xl font-medium transition">
+          <button type="button" onclick="quickDemoLogin()" class="w-full py-2 bg-slate-700/60 hover:bg-slate-700 text-slate-400 hover:text-slate-200 text-xs rounded-lg font-medium transition">
             ⚡ Masuk Cepat dengan Akun Demo
           </button>
         </div>
@@ -577,53 +673,53 @@
       <!-- Register Form -->
       <form id="form-register" onsubmit="handleRegister(event)" class="space-y-4 hidden">
         <div>
-          <label class="block text-xs font-semibold text-slate-300 mb-1">Nama Lengkap</label>
-          <input type="text" id="reg-name" required placeholder="Budi Santoso" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-sky-500">
+          <label class="block text-xs font-medium text-slate-400 mb-1.5">Nama Lengkap</label>
+          <input type="text" id="reg-name" required placeholder="Budi Santoso" class="w-full bg-slate-900 border border-slate-600 rounded-lg px-3 py-2 text-xs text-slate-200 focus:border-blue-500">
         </div>
         <div>
-          <label class="block text-xs font-semibold text-slate-300 mb-1">Email</label>
-          <input type="email" id="reg-email" required placeholder="nama@email.com" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-sky-500">
+          <label class="block text-xs font-medium text-slate-400 mb-1.5">Email</label>
+          <input type="email" id="reg-email" required placeholder="nama@email.com" class="w-full bg-slate-900 border border-slate-600 rounded-lg px-3 py-2 text-xs text-slate-200 focus:border-blue-500">
         </div>
         <div>
-          <label class="block text-xs font-semibold text-slate-300 mb-1">Password</label>
-          <input type="password" id="reg-password" required minlength="6" placeholder="Minimal 6 karakter" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-sky-500">
+          <label class="block text-xs font-medium text-slate-400 mb-1.5">Password</label>
+          <input type="password" id="reg-password" required minlength="6" placeholder="Minimal 6 karakter" class="w-full bg-slate-900 border border-slate-600 rounded-lg px-3 py-2 text-xs text-slate-200 focus:border-blue-500">
         </div>
-        <button type="submit" class="w-full py-2.5 bg-emerald-500 hover:bg-emerald-400 text-white font-bold text-xs rounded-xl shadow-lg shadow-emerald-500/20 transition">
+        <button type="submit" class="w-full py-2.5 bg-emerald-700 hover:bg-emerald-600 text-white font-semibold text-xs rounded-lg shadow-sm transition">
           Daftar Sekarang
         </button>
       </form>
 
       <!-- Reset Password Form -->
       <form id="form-reset-password" onsubmit="handleResetPassword(event)" class="space-y-4 hidden">
-        <div class="p-3 bg-amber-500/10 border border-amber-500/20 rounded-xl text-amber-300 text-xs flex items-start gap-2.5">
+        <div class="p-3 bg-slate-700/40 border border-slate-600 rounded-lg text-slate-300 text-xs flex items-start gap-2.5">
           <span class="text-base">🔐</span>
           <div>
-            <div class="font-bold">Lupa Kata Sandi?</div>
-            <div class="text-[11px] text-amber-200/80">Masukkan email terdaftar dan tentukan kata sandi baru akun Anda.</div>
+            <div class="font-semibold text-slate-200">Reset Kata Sandi</div>
+            <div class="text-[11px] text-slate-400 mt-0.5">Masukkan email terdaftar dan tentukan kata sandi baru akun Anda.</div>
           </div>
         </div>
 
         <div>
-          <label class="block text-xs font-semibold text-slate-300 mb-1">Email Akun Terdaftar</label>
-          <input type="email" id="reset-email" required placeholder="nama@email.com" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-sky-500">
+          <label class="block text-xs font-medium text-slate-400 mb-1.5">Email Akun Terdaftar</label>
+          <input type="email" id="reset-email" required placeholder="nama@email.com" class="w-full bg-slate-900 border border-slate-600 rounded-lg px-3 py-2 text-xs text-slate-200 focus:border-blue-500">
         </div>
 
         <div>
-          <label class="block text-xs font-semibold text-slate-300 mb-1">Kata Sandi Baru</label>
-          <input type="password" id="reset-new-password" required minlength="6" placeholder="Minimal 6 karakter" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-sky-500">
+          <label class="block text-xs font-medium text-slate-400 mb-1.5">Kata Sandi Baru</label>
+          <input type="password" id="reset-new-password" required minlength="6" placeholder="Minimal 6 karakter" class="w-full bg-slate-900 border border-slate-600 rounded-lg px-3 py-2 text-xs text-slate-200 focus:border-blue-500">
         </div>
 
         <div>
-          <label class="block text-xs font-semibold text-slate-300 mb-1">Konfirmasi Kata Sandi Baru</label>
-          <input type="password" id="reset-confirm-password" required minlength="6" placeholder="Ulangi kata sandi baru" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-sky-500">
+          <label class="block text-xs font-medium text-slate-400 mb-1.5">Konfirmasi Kata Sandi Baru</label>
+          <input type="password" id="reset-confirm-password" required minlength="6" placeholder="Ulangi kata sandi baru" class="w-full bg-slate-900 border border-slate-600 rounded-lg px-3 py-2 text-xs text-slate-200 focus:border-blue-500">
         </div>
 
-        <button type="submit" id="btn-submit-reset" class="w-full py-2.5 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-bold text-xs rounded-xl shadow-lg shadow-amber-500/20 transition flex items-center justify-center gap-2">
+        <button type="submit" id="btn-submit-reset" class="w-full py-2.5 bg-amber-600 hover:bg-amber-500 text-white font-semibold text-xs rounded-lg shadow-sm transition flex items-center justify-center gap-2">
           <span>🔄</span> Simpan Kata Sandi Baru
         </button>
 
         <div class="pt-2 border-t border-slate-700/60">
-          <button type="button" onclick="switchAuthTab('login')" class="w-full py-2 bg-slate-700/50 hover:bg-slate-700 text-slate-300 text-xs rounded-xl font-medium transition text-center">
+          <button type="button" onclick="switchAuthTab('login')" class="w-full py-2 bg-slate-700/60 hover:bg-slate-700 text-slate-400 hover:text-slate-200 text-xs rounded-lg font-medium transition text-center">
             ← Kembali ke Halaman Masuk
           </button>
         </div>
@@ -637,6 +733,7 @@
     let authToken = localStorage.getItem("aero_token") || "";
     let currentUser = null;
     let currentTransactionsList = [];
+    let currentTotalMarginPct = "0%";
 
     // Format IDR Currency
     function formatIDR(amount) {
@@ -665,8 +762,8 @@
       const titleEl = document.getElementById("toast-title");
       const msgEl = document.getElementById("toast-message");
 
-      toast.className = `fixed top-5 right-5 z-50 transform transition-all duration-300 max-w-sm rounded-xl p-4 shadow-2xl border flex items-center gap-3 no-print ${
-        isError ? "bg-rose-950/90 border-rose-500/50 text-white" : "bg-emerald-950/90 border-emerald-500/50 text-white"
+      toast.className = `fixed top-5 right-5 z-50 transform transition-all duration-300 max-w-sm rounded-lg p-4 shadow-xl border flex items-center gap-3 no-print ${
+        isError ? "bg-slate-900 border-rose-500/60 text-white" : "bg-slate-900 border-emerald-600/60 text-white"
       }`;
 
       icon.innerHTML = isError ? "❌" : "✅";
@@ -696,8 +793,8 @@
         tabsContainer.classList.add("hidden");
       } else {
         tabsContainer.classList.remove("hidden");
-        document.getElementById("tab-login").className = `flex-1 pb-3 text-xs font-bold border-b-2 ${isLogin ? "border-sky-500 text-sky-400" : "border-transparent text-slate-400"}`;
-        document.getElementById("tab-register").className = `flex-1 pb-3 text-xs font-bold border-b-2 ${isRegister ? "border-emerald-500 text-emerald-400" : "border-transparent text-slate-400"}`;
+        document.getElementById("tab-login").className = `flex-1 pb-3 text-xs font-bold border-b-2 ${isLogin ? "border-blue-500 text-blue-400" : "border-transparent text-slate-500"}`;
+        document.getElementById("tab-register").className = `flex-1 pb-3 text-xs font-bold border-b-2 ${isRegister ? "border-emerald-600 text-emerald-400" : "border-transparent text-slate-500"}`;
       }
 
       document.getElementById("form-login").classList.toggle("hidden", !isLogin);
@@ -858,7 +955,6 @@
 
         showToast("Reset Berhasil", res.message || "Kata sandi berhasil diperbarui!");
         
-        // Switch back to login with prefilled email
         switchAuthTab("login");
         document.getElementById("login-email").value = email;
         document.getElementById("login-password").value = "";
@@ -904,9 +1000,7 @@
     // Logout Handler
     async function handleLogout(callApi = true) {
       if (callApi && authToken) {
-        try {
-          await apiFetch("/auth/logout", { method: "POST" });
-        } catch (_) {}
+        try { await apiFetch("/auth/logout", { method: "POST" }); } catch (_) {}
       }
       authToken = "";
       currentUser = null;
@@ -918,11 +1012,20 @@
     }
 
     function resetStats() {
+      currentTotalMarginPct = "0%";
       document.getElementById("stat-pendapatan").textContent = "Rp 0";
       document.getElementById("stat-modal").textContent = "Rp 0";
       document.getElementById("stat-laba").textContent = "Rp 0";
       document.getElementById("stat-transaksi").textContent = "0";
-      document.getElementById("stat-margin-pct").textContent = "0%";
+      if (document.getElementById("stat-margin-pct")) {
+        document.getElementById("stat-margin-pct").textContent = "0%";
+      }
+      if (document.getElementById("stat-margin-pct-badge")) {
+        document.getElementById("stat-margin-pct-badge").textContent = "0%";
+      }
+      if (document.getElementById("print-total-margin")) {
+        document.getElementById("print-total-margin").textContent = "0%";
+      }
       document.getElementById("tx-table-body").innerHTML = `
         <tr>
           <td colspan="7" class="p-8 text-center text-slate-400">
@@ -930,9 +1033,11 @@
           </td>
         </tr>
       `;
+      const tfoot = document.getElementById("tx-table-foot");
+      if (tfoot) tfoot.innerHTML = "";
     }
 
-    // Load Summary & KPI Data
+    // Load Summary & KPI Data (Hitung Total Margin %)
     async function loadDashboardData() {
       if (!authToken) return;
       try {
@@ -944,10 +1049,26 @@
           document.getElementById("stat-laba").textContent = formatIDR(s.totalLabaBersih);
           document.getElementById("stat-transaksi").textContent = s.totalTransaksi;
 
-          const marginPct = s.totalPendapatan > 0
-            ? ((s.totalLabaBersih / s.totalPendapatan) * 100).toFixed(1)
-            : 0;
-          document.getElementById("stat-margin-pct").textContent = `${marginPct}%`;
+          // Hitung Keseluruhan Margin Keuntungan Bersih: (Total Laba Bersih / Total Pendapatan * 100)
+          const totalPendapatanNum = Number(s.totalPendapatan) || 0;
+          const totalLabaNum = Number(s.totalLabaBersih) || 0;
+          const marginPct = totalPendapatanNum > 0
+            ? ((totalLabaNum / totalPendapatanNum) * 100).toFixed(1)
+            : "0.0";
+          
+          currentTotalMarginPct = `${marginPct}%`;
+
+          // Tampilkan persentase Total Margin di kartu KPI dashboard
+          if (document.getElementById("stat-margin-pct")) {
+            document.getElementById("stat-margin-pct").textContent = `${marginPct}%`;
+          }
+          if (document.getElementById("stat-margin-pct-badge")) {
+            document.getElementById("stat-margin-pct-badge").textContent = `${marginPct}%`;
+          }
+          // Tampilkan persentase Total Margin pada laporan cetak PDF
+          if (document.getElementById("print-total-margin")) {
+            document.getElementById("print-total-margin").textContent = `${marginPct}%`;
+          }
 
           // Product breakdown
           const pesawat = s.ringkasanPerProduk?.find(p => p.jenisProduk === "tiket_pesawat");
@@ -978,7 +1099,7 @@
       }
     }
 
-    // Load Transactions Table
+    // Load Transactions Table & Update Table Footer Summary
     async function loadTransactions() {
       if (!authToken) return;
       const produk = document.getElementById("filter-produk").value;
@@ -993,6 +1114,7 @@
       try {
         const res = await apiFetch(`/transactions${qs}`);
         const tbody = document.getElementById("tx-table-body");
+        const tfoot = document.getElementById("tx-table-foot");
         const countSub = document.getElementById("tx-count-sub");
 
         if (res.success && Array.isArray(res.data)) {
@@ -1007,36 +1129,68 @@
                 </td>
               </tr>
             `;
+            if (tfoot) tfoot.innerHTML = "";
             return;
           }
 
+          let sumModal = 0;
+          let sumJual = 0;
+          let sumMargin = 0;
+
           tbody.innerHTML = res.data.map(tx => {
             const isPesawat = tx.jenisProduk === "tiket_pesawat";
+            const m = Number(tx.hargaModal) || 0;
+            const j = Number(tx.hargaJual) || 0;
+            const mg = Number(tx.margin) || (j - m);
+
+            sumModal += m;
+            sumJual += j;
+            sumMargin += mg;
+
             const statusBadge = 
-              tx.statusBayar === "lunas" ? `<span class="badge-print px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">Lunas</span>` :
-              tx.statusBayar === "dp" ? `<span class="badge-print px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30">DP</span>` :
-              `<span class="badge-print px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-500/20 text-rose-400 border border-rose-500/30">Belum Lunas</span>`;
+              tx.statusBayar === "lunas" ? `<span class="badge-print px-2 py-0.5 rounded-md text-[10px] font-semibold bg-emerald-900/50 text-emerald-300 border border-emerald-700/60">Lunas</span>` :
+              tx.statusBayar === "dp" ? `<span class="badge-print px-2 py-0.5 rounded-md text-[10px] font-semibold bg-amber-900/50 text-amber-300 border border-amber-700/60">DP</span>` :
+              `<span class="badge-print px-2 py-0.5 rounded-md text-[10px] font-semibold bg-rose-900/50 text-rose-300 border border-rose-700/60">Belum Lunas</span>`;
 
             return `
-              <tr class="hover:bg-slate-800/40 transition">
-                <td class="p-3 text-slate-300 font-medium">${formatDate(tx.tanggal)}</td>
+              <tr class="hover:bg-slate-800/50 transition">
+                <td class="p-3 text-slate-400 font-medium">${formatDate(tx.tanggal)}</td>
                 <td class="p-3">
-                  <span class="inline-flex items-center gap-1.5 px-2 py-1 rounded-lg text-xs font-semibold ${isPesawat ? 'bg-sky-500/10 text-sky-400 border border-sky-500/20' : 'bg-indigo-500/10 text-indigo-400 border border-indigo-500/20'}">
+                  <span class="inline-flex items-center gap-1 px-2 py-1 rounded-md text-xs font-medium ${isPesawat ? 'bg-blue-900/40 text-blue-300 border border-blue-700/50' : 'bg-violet-900/40 text-violet-300 border border-violet-700/50'}">
                     <span>${isPesawat ? '✈️' : '🏨'}</span>
                     <span>${isPesawat ? 'Pesawat' : 'Hotel'}</span>
                   </span>
                 </td>
                 <td class="p-3">
-                  <div class="font-bold text-slate-200">${escapeHtml(tx.namaPelanggan)}</div>
-                  <div class="text-[10px] text-slate-400 font-mono tracking-wider">${escapeHtml(tx.kodeBooking)}</div>
+                  <div class="font-semibold text-slate-200">${escapeHtml(tx.namaPelanggan)}</div>
+                  <div class="text-[10px] text-slate-500 font-mono tracking-wider">${escapeHtml(tx.kodeBooking)}</div>
                 </td>
-                <td class="p-3 text-right font-medium text-slate-400">${formatIDR(tx.hargaModal)}</td>
-                <td class="p-3 text-right font-semibold text-slate-200">${formatIDR(tx.hargaJual)}</td>
+                <td class="p-3 text-right font-medium text-slate-500">${formatIDR(tx.hargaModal)}</td>
+                <td class="p-3 text-right font-semibold text-slate-300">${formatIDR(tx.hargaJual)}</td>
                 <td class="p-3 text-right font-bold text-emerald-400">${formatIDR(tx.margin)}</td>
                 <td class="p-3 text-center">${statusBadge}</td>
               </tr>
             `;
           }).join("");
+
+          // Render Table Footer Summary
+          const tableMarginPct = sumJual > 0 ? ((sumMargin / sumJual) * 100).toFixed(1) : "0.0";
+          if (tfoot) {
+            tfoot.innerHTML = `
+              <tr>
+                <td colspan="3" class="p-3 text-slate-300 font-bold uppercase tracking-wider">
+                  TOTAL (${res.data.length} Transaksi)
+                </td>
+                <td class="p-3 text-right font-bold text-slate-300">${formatIDR(sumModal)}</td>
+                <td class="p-3 text-right font-bold text-slate-200">${formatIDR(sumJual)}</td>
+                <td class="p-3 text-right font-black text-emerald-400">
+                  <div>${formatIDR(sumMargin)}</div>
+                  <div class="text-[10px] text-emerald-300 font-semibold print:text-emerald-800">Margin: ${tableMarginPct}%</div>
+                </td>
+                <td class="p-3 text-center text-slate-400 font-medium">-</td>
+              </tr>
+            `;
+          }
         }
       } catch (err) {
         console.error("Gagal memuat transaksi:", err);
@@ -1048,7 +1202,6 @@
       return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
     }
 
-    // Create Transaction Handler
     async function handleCreateTransaction(e) {
       e.preventDefault();
       if (!authToken) {
@@ -1085,14 +1238,12 @@
 
         showToast("Berhasil Disimpan", `Transaksi ${kodeBooking} berhasil dicatat!`);
         
-        // Reset form inputs except date
         document.getElementById("tx-nama").value = "";
         document.getElementById("tx-kode").value = "";
         document.getElementById("tx-modal").value = "";
         document.getElementById("tx-jual").value = "";
         updateMarginPreview();
 
-        // Refresh UI
         loadDashboardData();
         loadTransactions();
       } catch (err) {
@@ -1253,6 +1404,11 @@
       const userText = currentUser ? `${currentUser.name} (${currentUser.email})` : "Pengguna / Tamu";
       document.getElementById("print-user-name").textContent = userText;
       document.getElementById("print-signature-name").textContent = currentUser ? currentUser.name : "Bagian Keuangan";
+      
+      // Update Total Margin di Header Cetak PDF
+      if (document.getElementById("print-total-margin")) {
+        document.getElementById("print-total-margin").textContent = currentTotalMarginPct;
+      }
 
       window.print();
     }
