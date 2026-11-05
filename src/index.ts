@@ -11,6 +11,7 @@ export const app = new Elysia()
     name: "API Pencatatan Keuangan Tiket & Hotel",
     status: "running",
     version: "1.0.0",
+    dashboard: `http://localhost:${port}/dashboard`,
     endpoints: {
       auth: [
         "POST /auth/register",
@@ -25,9 +26,18 @@ export const app = new Elysia()
       ],
     },
   }))
+  .get("/dashboard", () => {
+    const file = Bun.file("./public/dashboard.html");
+    return new Response(file, {
+      headers: {
+        "Content-Type": "text/html; charset=utf-8",
+      },
+    });
+  })
   .use(authRoutes)
   .use(transactionsRoutes);
 
 app.listen(port, () => {
   console.log(`🚀 Server berjalan di http://localhost:${port}`);
+  console.log(`📊 Dashboard UI: http://localhost:${port}/dashboard`);
 });
