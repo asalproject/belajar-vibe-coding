@@ -70,6 +70,35 @@ export const authRoutes = new Elysia({ prefix: "/auth" })
       }),
     }
   )
+  .post(
+    "/reset-password",
+    async ({ body, set }) => {
+      try {
+        const result = await authService.resetPassword({
+          email: body.email,
+          newPassword: body.newPassword,
+        });
+
+        return {
+          success: true,
+          message: "Kata sandi berhasil diperbarui. Silakan masuk menggunakan kata sandi baru.",
+          data: result,
+        };
+      } catch (err: any) {
+        set.status = 400;
+        return {
+          success: false,
+          message: err.message || "Gagal mereset kata sandi",
+        };
+      }
+    },
+    {
+      body: t.Object({
+        email: t.String({ format: "email" }),
+        newPassword: t.String({ minLength: 6 }),
+      }),
+    }
+  )
   .post("/logout", async ({ cookie, headers }) => {
     let currentSessionId: string | undefined = undefined;
     const cookieVal = cookie.session_id?.value;

@@ -20,6 +20,7 @@ export const app = new Elysia()
         auth: [
           "POST /auth/register",
           "POST /auth/login",
+          "POST /auth/reset-password",
           "POST /auth/logout",
           "GET /auth/me",
         ],

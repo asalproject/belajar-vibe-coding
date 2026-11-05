@@ -76,6 +76,37 @@ export class AuthService {
     };
   }
 
+  async resetPassword(data: { email: string; newPassword: string }) {
+    const [user] = await db
+      .select()
+      .from(users)
+      .where(eq(users.email, data.email.toLowerCase()))
+      .limit(1);
+
+    if (!user) {
+      throw new Error("Email tidak terdaftar dalam sistem");
+    }
+
+    const hashedPassword = await Bun.password.hash(data.newPassword, {
+      algorithm: "bcrypt",
+      cost: 10,
+    });
+
+    await db
+      .update(users)
+      .set({ password: hashedPassword })
+      .where(eq(users.id, user.id));
+
+    // Invalidate existing sessions so user logs in with new password
+    await db.delete(sessions).where(eq(sessions.userId, user.id));
+
+    return {
+      id: user.id,
+      email: user.email,
+      name: user.name,
+    };
+  }
+
   async logout(sessionId: string) {
     if (!sessionId) return false;
     await db.delete(sessions).where(eq(sessions.id, sessionId));
