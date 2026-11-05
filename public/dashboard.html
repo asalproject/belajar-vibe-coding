@@ -235,6 +235,32 @@
         font-weight: 600 !important;
         font-size: 7.5pt !important;
       }
+
+      /* Badge Produk di print — high-contrast light background */
+      .badge-pesawat-print {
+        background-color: #dbeafe !important;
+        color: #1e40af !important;
+        border: 1px solid #93c5fd !important;
+        padding: 1px 5px !important;
+        border-radius: 3px !important;
+        font-weight: 600 !important;
+        font-size: 7.5pt !important;
+      }
+
+      .badge-hotel-print {
+        background-color: #f3e8ff !important;
+        color: #6b21a8 !important;
+        border: 1px solid #d8b4fe !important;
+        padding: 1px 5px !important;
+        border-radius: 3px !important;
+        font-weight: 600 !important;
+        font-size: 7.5pt !important;
+      }
+
+      /* Status badge di print — high-contrast */
+      .badge-lunas-print  { background-color: #dcfce7 !important; color: #166534 !important; border: 1px solid #86efac !important; }
+      .badge-dp-print     { background-color: #fef9c3 !important; color: #854d0e !important; border: 1px solid #fde047 !important; }
+      .badge-belum-print  { background-color: #fee2e2 !important; color: #991b1b !important; border: 1px solid #fca5a5 !important; }
     }
   </style>
 </head>
@@ -381,31 +407,33 @@
           Performa Produk
         </h3>
         <div id="product-breakdown-list" class="space-y-3">
-          <div class="p-3 bg-slate-900/70 rounded-lg border border-slate-700/60 flex items-center justify-between">
+          <!-- Tiket Pesawat -->
+          <div class="p-3 bg-slate-900 rounded-lg border border-slate-700 flex items-center justify-between">
             <div class="flex items-center gap-2.5">
-              <span class="text-lg">✈️</span>
+              <div class="w-8 h-8 rounded-md bg-blue-100 flex items-center justify-center text-base">✈️</div>
               <div>
                 <div class="text-xs font-semibold text-slate-200">Tiket Pesawat</div>
-                <div id="pesawat-count" class="text-[11px] text-slate-500">0 transaksi</div>
+                <div id="pesawat-count" class="text-[11px] text-slate-400 mt-0.5">0 transaksi</div>
               </div>
             </div>
             <div class="text-right">
               <div id="pesawat-margin" class="text-xs font-bold text-emerald-400">Rp 0</div>
-              <div class="text-[10px] text-slate-500">Laba</div>
+              <div class="text-[10px] text-slate-500">Total Laba</div>
             </div>
           </div>
 
-          <div class="p-3 bg-slate-900/70 rounded-lg border border-slate-700/60 flex items-center justify-between">
+          <!-- Voucher Hotel -->
+          <div class="p-3 bg-slate-900 rounded-lg border border-slate-700 flex items-center justify-between">
             <div class="flex items-center gap-2.5">
-              <span class="text-lg">🏨</span>
+              <div class="w-8 h-8 rounded-md bg-purple-100 flex items-center justify-center text-base">🏨</div>
               <div>
                 <div class="text-xs font-semibold text-slate-200">Voucher Hotel</div>
-                <div id="hotel-count" class="text-[11px] text-slate-500">0 transaksi</div>
+                <div id="hotel-count" class="text-[11px] text-slate-400 mt-0.5">0 transaksi</div>
               </div>
             </div>
             <div class="text-right">
               <div id="hotel-margin" class="text-xs font-bold text-emerald-400">Rp 0</div>
-              <div class="text-[10px] text-slate-500">Laba</div>
+              <div class="text-[10px] text-slate-500">Total Laba</div>
             </div>
           </div>
         </div>
@@ -418,20 +446,20 @@
           Status Pembayaran
         </h3>
         <div id="status-breakdown-list" class="grid grid-cols-3 gap-3">
-          <div class="p-3 bg-slate-900/70 rounded-lg border border-slate-700/60 text-center">
-            <div class="text-[10px] font-semibold text-emerald-400 uppercase tracking-wide mb-1">Lunas</div>
-            <div id="status-lunas-count" class="text-lg font-bold text-white">0</div>
-            <div id="status-lunas-total" class="text-[10px] text-slate-500 mt-0.5">Rp 0</div>
+          <div class="p-3 bg-slate-900 rounded-lg border border-slate-700 text-center">
+            <div class="text-[10px] font-bold text-emerald-400 uppercase tracking-wide mb-1">Lunas</div>
+            <div id="status-lunas-count" class="text-xl font-bold text-white">0</div>
+            <div id="status-lunas-total" class="text-[10px] text-slate-400 mt-1">Rp 0</div>
           </div>
-          <div class="p-3 bg-slate-900/70 rounded-lg border border-slate-700/60 text-center">
-            <div class="text-[10px] font-semibold text-amber-400 uppercase tracking-wide mb-1">DP</div>
-            <div id="status-dp-count" class="text-lg font-bold text-white">0</div>
-            <div id="status-dp-total" class="text-[10px] text-slate-500 mt-0.5">Rp 0</div>
+          <div class="p-3 bg-slate-900 rounded-lg border border-slate-700 text-center">
+            <div class="text-[10px] font-bold text-amber-400 uppercase tracking-wide mb-1">DP</div>
+            <div id="status-dp-count" class="text-xl font-bold text-white">0</div>
+            <div id="status-dp-total" class="text-[10px] text-slate-400 mt-1">Rp 0</div>
           </div>
-          <div class="p-3 bg-slate-900/70 rounded-lg border border-slate-700/60 text-center">
-            <div class="text-[10px] font-semibold text-rose-400 uppercase tracking-wide mb-1">Belum</div>
-            <div id="status-belum-count" class="text-lg font-bold text-white">0</div>
-            <div id="status-belum-total" class="text-[10px] text-slate-500 mt-0.5">Rp 0</div>
+          <div class="p-3 bg-slate-900 rounded-lg border border-slate-700 text-center">
+            <div class="text-[10px] font-bold text-rose-400 uppercase tracking-wide mb-1">Belum</div>
+            <div id="status-belum-count" class="text-xl font-bold text-white">0</div>
+            <div id="status-belum-total" class="text-[10px] text-slate-400 mt-1">Rp 0</div>
           </div>
         </div>
       </div>
@@ -583,9 +611,9 @@
         </div>
 
         <!-- Table Container -->
-        <div id="tx-table-container" class="overflow-x-auto rounded-lg border border-slate-700/60">
+        <div id="tx-table-container" class="overflow-x-auto rounded-lg border border-slate-700">
           <table class="w-full text-left text-xs">
-            <thead class="bg-slate-900/80 text-slate-400 border-b border-slate-700 font-semibold">
+            <thead class="bg-slate-900 text-slate-300 border-b border-slate-700 font-semibold uppercase tracking-wide text-[11px]">
               <tr>
                 <th class="p-3">Tanggal</th>
                 <th class="p-3">Produk</th>
@@ -596,14 +624,14 @@
                 <th class="p-3 text-center">Status</th>
               </tr>
             </thead>
-            <tbody id="tx-table-body" class="divide-y divide-slate-800/80 text-slate-200">
+            <tbody id="tx-table-body" class="text-slate-200">
               <tr>
                 <td colspan="7" class="p-8 text-center text-slate-500">
                   <div class="animate-pulse">Memuat data transaksi dari API...</div>
                 </td>
               </tr>
             </tbody>
-            <tfoot id="tx-table-foot" class="bg-slate-900/80 text-slate-200 border-t-2 border-slate-700 font-semibold text-xs">
+            <tfoot id="tx-table-foot" class="bg-slate-900 text-slate-200 border-t-2 border-slate-600 font-semibold text-xs">
               <!-- Diisi otomatis oleh loadTransactions() -->
             </tfoot>
           </table>
@@ -1148,26 +1176,26 @@
             sumMargin += mg;
 
             const statusBadge = 
-              tx.statusBayar === "lunas" ? `<span class="badge-print px-2 py-0.5 rounded-md text-[10px] font-semibold bg-emerald-900/50 text-emerald-300 border border-emerald-700/60">Lunas</span>` :
-              tx.statusBayar === "dp" ? `<span class="badge-print px-2 py-0.5 rounded-md text-[10px] font-semibold bg-amber-900/50 text-amber-300 border border-amber-700/60">DP</span>` :
-              `<span class="badge-print px-2 py-0.5 rounded-md text-[10px] font-semibold bg-rose-900/50 text-rose-300 border border-rose-700/60">Belum Lunas</span>`;
+              tx.statusBayar === "lunas" ? `<span class="badge-print badge-lunas-print px-2 py-0.5 rounded-md text-[10px] font-semibold bg-emerald-100 text-emerald-800 border border-emerald-300">Lunas</span>` :
+              tx.statusBayar === "dp" ? `<span class="badge-print badge-dp-print px-2 py-0.5 rounded-md text-[10px] font-semibold bg-amber-100 text-amber-800 border border-amber-300">DP</span>` :
+              `<span class="badge-print badge-belum-print px-2 py-0.5 rounded-md text-[10px] font-semibold bg-rose-100 text-rose-800 border border-rose-300">Belum Lunas</span>`;
 
             return `
-              <tr class="hover:bg-slate-800/50 transition">
-                <td class="p-3 text-slate-400 font-medium">${formatDate(tx.tanggal)}</td>
+              <tr class="hover:bg-slate-700/30 transition border-b border-slate-700/50 last:border-0">
+                <td class="p-3 text-slate-300 text-xs">${formatDate(tx.tanggal)}</td>
                 <td class="p-3">
-                  <span class="inline-flex items-center gap-1 px-2 py-1 rounded-md text-xs font-medium ${isPesawat ? 'bg-blue-900/40 text-blue-300 border border-blue-700/50' : 'bg-violet-900/40 text-violet-300 border border-violet-700/50'}">
+                  <span class="inline-flex items-center gap-1 px-2 py-1 rounded-md text-xs font-semibold ${isPesawat ? 'bg-blue-100 text-blue-800 badge-pesawat-print' : 'bg-purple-100 text-purple-800 badge-hotel-print'}">
                     <span>${isPesawat ? '✈️' : '🏨'}</span>
                     <span>${isPesawat ? 'Pesawat' : 'Hotel'}</span>
                   </span>
                 </td>
                 <td class="p-3">
-                  <div class="font-semibold text-slate-200">${escapeHtml(tx.namaPelanggan)}</div>
-                  <div class="text-[10px] text-slate-500 font-mono tracking-wider">${escapeHtml(tx.kodeBooking)}</div>
+                  <div class="font-semibold text-slate-100 text-xs">${escapeHtml(tx.namaPelanggan)}</div>
+                  <div class="text-[10px] text-slate-400 font-mono tracking-wide mt-0.5">${escapeHtml(tx.kodeBooking)}</div>
                 </td>
-                <td class="p-3 text-right font-medium text-slate-500">${formatIDR(tx.hargaModal)}</td>
-                <td class="p-3 text-right font-semibold text-slate-300">${formatIDR(tx.hargaJual)}</td>
-                <td class="p-3 text-right font-bold text-emerald-400">${formatIDR(tx.margin)}</td>
+                <td class="p-3 text-right font-medium text-slate-400 text-xs">${formatIDR(tx.hargaModal)}</td>
+                <td class="p-3 text-right font-semibold text-slate-200 text-xs">${formatIDR(tx.hargaJual)}</td>
+                <td class="p-3 text-right font-bold text-emerald-400 text-xs">${formatIDR(tx.margin)}</td>
                 <td class="p-3 text-center">${statusBadge}</td>
               </tr>
             `;
