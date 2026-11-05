@@ -7,25 +7,30 @@ const port = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
 
 export const app = new Elysia()
   .use(cors())
-  .get("/", () => ({
-    name: "API Pencatatan Keuangan Tiket & Hotel",
-    status: "running",
-    version: "1.0.0",
-    dashboard: `http://localhost:${port}/dashboard`,
-    endpoints: {
-      auth: [
-        "POST /auth/register",
-        "POST /auth/login",
-        "POST /auth/logout",
-        "GET /auth/me",
-      ],
-      transactions: [
-        "POST /transactions",
-        "GET /transactions",
-        "GET /transactions/summary",
-      ],
-    },
-  }))
+  .get("/", ({ headers, redirect }) => {
+    if (headers["accept"]?.includes("text/html")) {
+      return redirect("/dashboard");
+    }
+    return {
+      name: "API Pencatatan Keuangan Tiket & Hotel",
+      status: "running",
+      version: "1.0.0",
+      dashboard: `http://localhost:${port}/dashboard`,
+      endpoints: {
+        auth: [
+          "POST /auth/register",
+          "POST /auth/login",
+          "POST /auth/logout",
+          "GET /auth/me",
+        ],
+        transactions: [
+          "POST /transactions",
+          "GET /transactions",
+          "GET /transactions/summary",
+        ],
+      },
+    };
+  })
   .get("/dashboard", () => {
     const file = Bun.file("./public/dashboard.html");
     return new Response(file, {
