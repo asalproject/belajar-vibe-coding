@@ -49,6 +49,15 @@ export const app = new Elysia()
       },
     });
   })
+  .get("/garuda-logo-official.png", () => {
+    const file = Bun.file("./public/garuda-logo-official.png");
+    return new Response(file, {
+      headers: {
+        "Content-Type": "image/png",
+        "Cache-Control": "public, max-age=86400",
+      },
+    });
+  })
   .use(authRoutes)
   .use(transactionsRoutes);
 
