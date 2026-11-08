@@ -16,6 +16,7 @@ export const app = new Elysia()
       status: "running",
       version: "1.0.0",
       dashboard: `http://localhost:${port}/dashboard`,
+      garudaEditor: `http://localhost:${port}/garuda-editor`,
       endpoints: {
         auth: [
           "POST /auth/register",
@@ -40,10 +41,19 @@ export const app = new Elysia()
       },
     });
   })
+  .get("/garuda-editor", () => {
+    const file = Bun.file("./public/garuda-editor.html");
+    return new Response(file, {
+      headers: {
+        "Content-Type": "text/html; charset=utf-8",
+      },
+    });
+  })
   .use(authRoutes)
   .use(transactionsRoutes);
 
 app.listen(port, () => {
   console.log(`🚀 Server berjalan di http://localhost:${port}`);
   console.log(`📊 Dashboard UI: http://localhost:${port}/dashboard`);
+  console.log(`✈️ Garuda E-Ticket Editor: http://localhost:${port}/garuda-editor`);
 });
