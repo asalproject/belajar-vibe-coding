@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Electronic Ticket Receipt - Garuda Indonesia (Generator & Editor)</title>
-  <!-- Tailwind CSS for Editor UI Only -->
+  <!-- Tailwind CSS for Sidebar Editor UI Only -->
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,22 +16,52 @@
       font-family: 'Plus Jakarta Sans', sans-serif;
     }
 
-    /* Document Sheet Typography strictly matches Airline GDS / IATA Receipt */
-    .ticket-doc {
-      font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
-      color: #000000;
+    /* ============================================================
+       DOCUMENT TYPOGRAPHY & LAYOUT (STRICT GDS / IATA SPECIFICATION)
+       Width: 794px fixed (Standard A4 96dpi frame)
+       Primary: 'Courier New', Courier, monospace for table data, receipt & codes
+       Secondary: Arial, Helvetica, sans-serif for title & legal disclaimers
+    ============================================================ */
+    .gds-doc {
+      width: 794px;
+      min-width: 794px;
+      max-width: 794px;
       background-color: #ffffff;
+      color: #000000;
+      padding: 24px;
+      margin: 0 auto;
+      box-sizing: border-box;
+      font-size: 11px;
       line-height: 1.25;
-      font-size: 11px;
+      font-family: 'Courier New', Courier, monospace;
     }
 
-    .ticket-mono {
-      font-family: "Courier New", Courier, Lucida Console, Monaco, monospace;
-      font-size: 11px;
+    .gds-doc table {
+      border-collapse: collapse;
+      width: 100%;
     }
 
-    .ticket-blue {
-      color: #004e9a;
+    .gds-doc th, .gds-doc td {
+      border: 1px solid #000000;
+      padding: 3px 5px;
+      text-align: left;
+      vertical-align: top;
+      font-size: 11px;
+      line-height: 1.2;
+    }
+
+    .gds-doc th {
+      background-color: #ffffff;
+      color: #000000;
+      font-weight: bold;
+    }
+
+    .font-sans-gds {
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .font-mono-gds {
+      font-family: 'Courier New', Courier, monospace;
     }
 
     /* Custom scrollbar for editor panel */
@@ -54,7 +84,7 @@
     @media print {
       @page {
         size: A4 portrait;
-        margin: 10mm 12mm;
+        margin: 8mm 10mm;
       }
 
       html, body {
@@ -80,18 +110,14 @@
         width: 100% !important;
       }
 
-      .ticket-page {
+      .gds-doc {
+        width: 100% !important;
+        min-width: 100% !important;
+        max-width: 100% !important;
         box-shadow: none !important;
         border: none !important;
         padding: 0 !important;
         margin: 0 !important;
-        width: 100% !important;
-        max-width: 100% !important;
-        page-break-after: always;
-      }
-
-      .ticket-page:last-child {
-        page-break-after: auto;
       }
 
       * {
@@ -141,7 +167,7 @@
   <div class="flex-1 flex flex-col lg:flex-row overflow-hidden">
     
     <!-- LEFT SIDEBAR: EDITABLE FORM (No Print) -->
-    <aside id="editor-sidebar" class="w-full lg:w-[420px] xl:w-[460px] bg-white border-r border-slate-300 flex flex-col h-auto lg:h-[calc(100vh-3.5rem)] no-print shadow-sm z-30 flex-shrink-0">
+    <aside id="editor-sidebar" class="w-full lg:w-[410px] xl:w-[440px] bg-white border-r border-slate-300 flex flex-col h-auto lg:h-[calc(100vh-3.5rem)] no-print shadow-sm z-30 flex-shrink-0">
       
       <!-- Sidebar Header -->
       <div class="p-4 border-b border-slate-200 bg-slate-50 flex items-center justify-between">
@@ -209,7 +235,7 @@
             </div>
             <div>
               <label class="block font-semibold text-slate-600 mb-1 text-[11px]">To (Tujuan)</label>
-              <input type="text" id="inp-to-airport" value="MEDAN KUALA NAMU" class="w-full bg-white border border-slate-300 rounded-lg px-2.5 py-1.5 font-semibold text-slate-900 focus:border-blue-500 uppercase" oninput="updateTicketLive()">
+              <input type="text" id="inp-to-airport" value="MEDAN KUALANAMU" class="w-full bg-white border border-slate-300 rounded-lg px-2.5 py-1.5 font-semibold text-slate-900 focus:border-blue-500 uppercase" oninput="updateTicketLive()">
             </div>
           </div>
 
@@ -258,13 +284,23 @@
             </div>
             <div>
               <label class="block font-semibold text-slate-600 mb-1 text-[10px]">Seat</label>
-              <input type="text" id="inp-seat" value="" placeholder="-" class="w-full bg-white border border-slate-300 rounded-lg px-2 py-1.5 text-center font-mono text-slate-900 focus:border-blue-500" oninput="updateTicketLive()">
+              <input type="text" id="inp-seat" value="-" class="w-full bg-white border border-slate-300 rounded-lg px-2 py-1.5 text-center font-mono text-slate-900 focus:border-blue-500" oninput="updateTicketLive()">
             </div>
           </div>
 
-          <div>
-            <label class="block font-semibold text-slate-600 mb-1 text-[11px]">Fare Basis</label>
-            <input type="text" id="inp-farebasis" value="YOW" class="w-full bg-white border border-slate-300 rounded-lg px-2.5 py-1.5 font-mono font-bold text-slate-900 focus:border-blue-500 uppercase" oninput="updateTicketLive()">
+          <div class="grid grid-cols-3 gap-2">
+            <div>
+              <label class="block font-semibold text-slate-600 mb-1 text-[10px]">NVB (2)</label>
+              <input type="text" id="inp-nvb" value="-" class="w-full bg-white border border-slate-300 rounded-lg px-2 py-1.5 text-center text-slate-800 focus:border-blue-500" oninput="updateTicketLive()">
+            </div>
+            <div>
+              <label class="block font-semibold text-slate-600 mb-1 text-[10px]">NVA (3)</label>
+              <input type="text" id="inp-nva" value="-" class="w-full bg-white border border-slate-300 rounded-lg px-2 py-1.5 text-center text-slate-800 focus:border-blue-500" oninput="updateTicketLive()">
+            </div>
+            <div>
+              <label class="block font-semibold text-slate-600 mb-1 text-[10px]">Fare Basis</label>
+              <input type="text" id="inp-farebasis" value="YOW" class="w-full bg-white border border-slate-300 rounded-lg px-2 py-1.5 font-mono font-bold text-slate-900 text-center focus:border-blue-500 uppercase" oninput="updateTicketLive()">
+            </div>
           </div>
         </div>
 
@@ -308,12 +344,12 @@
           </div>
 
           <!-- Total Amount Highlight -->
-          <div class="p-3 bg-emerald-50 border border-emerald-200 rounded-lg flex items-center justify-between">
+          <div class="p-3 bg-slate-100 border border-slate-300 rounded-lg flex items-center justify-between">
             <div>
-              <span class="text-[10px] text-emerald-800 uppercase font-bold tracking-wide">Total Amount (IDR)</span>
-              <div id="txt-calc-total-display" class="text-base font-black text-emerald-950 font-mono">3.319.120</div>
+              <span class="text-[10px] text-slate-600 uppercase font-bold tracking-wide">Total Amount (IDR)</span>
+              <div id="txt-calc-total-display" class="text-base font-bold text-slate-900 font-mono">3.319.120</div>
             </div>
-            <span class="px-2 py-0.5 bg-emerald-200 text-emerald-900 text-[10px] font-bold rounded">
+            <span class="px-2 py-0.5 bg-slate-200 text-slate-800 text-[10px] font-bold rounded">
               NONREF
             </span>
           </div>
@@ -343,7 +379,7 @@
 
           <div>
             <label class="block font-semibold text-slate-600 mb-1 text-[11px]">Fare Calculation Line</label>
-            <input type="text" id="inp-fare-calc" value="JKT GA KNO1949000.00IDR1949000.00END" class="w-full bg-white border border-slate-300 rounded-lg px-2.5 py-1.5 font-mono text-[11px] text-slate-900 focus:border-blue-500 uppercase" oninput="updateTicketLive()">
+            <input type="text" id="inp-fare-calc" value="JKT GA KNO 1949000.00IDR1949000.00END" class="w-full bg-white border border-slate-300 rounded-lg px-2.5 py-1.5 font-mono text-[11px] text-slate-900 focus:border-blue-500 uppercase" oninput="updateTicketLive()">
           </div>
         </div>
 
@@ -356,7 +392,7 @@
           
           <div class="grid grid-cols-2 gap-2">
             <button onclick="resetToSample()" class="py-2 px-3 bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold text-xs rounded-lg transition text-center">
-              Reset Contoh Asli
+              Reset Default
             </button>
             <a href="/dashboard" class="py-2 px-3 bg-slate-800 hover:bg-slate-700 text-white font-semibold text-xs rounded-lg transition text-center">
               Dashboard
@@ -367,348 +403,254 @@
       </div>
     </aside>
 
-    <!-- RIGHT CANVAS: LIVE TICKET PREVIEW (100% IDENTIK DOKUMEN RESMI) -->
-    <main id="preview-viewport" class="flex-1 bg-slate-300/70 p-4 sm:p-6 lg:p-8 overflow-y-auto flex flex-col items-center gap-6">
+    <!-- RIGHT CANVAS: LIVE TICKET PREVIEW (794px FIXED A4 FRAME) -->
+    <main id="preview-viewport" class="flex-1 bg-slate-300/80 p-4 sm:p-6 lg:p-8 overflow-y-auto flex flex-col items-center">
       
-      <!-- ================= PAGE 1 ================= -->
-      <div id="ticket-page-1" class="ticket-page ticket-doc w-full max-w-[780px] bg-white text-black shadow-xl p-8 sm:p-10 border border-slate-300 text-[11px] leading-[1.35] box-border">
+      <!-- ================= DOCUMENT SHEET: 794px FIXED A4 FRAME ================= -->
+      <div id="ticket-document" class="gds-doc shadow-2xl">
         
-        <!-- TOP CENTER HEADER: Official Garuda Indonesia Logo + SkyTeam Ribbon Logo -->
-        <div class="text-center mb-4">
-          <div class="flex items-center justify-center gap-2 mb-1">
-            <!-- Garuda Indonesia Wing Emblem + Text -->
-            <div class="flex items-center gap-2">
-              <svg width="44" height="28" viewBox="0 0 100 65" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- ================= A. HEADER DOKUMEN ================= -->
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; padding-bottom: 10px; border-bottom: 1px solid #000000; margin-bottom: 12px;">
+          
+          <!-- Kiri: Logo Garuda Indonesia + Teks Legal -->
+          <div style="display: flex; align-items: flex-start; gap: 12px;">
+            <!-- Logo Resmi Burung Garuda Indonesia -->
+            <div style="width: 54px; height: 38px; flex-shrink: 0; margin-top: 2px;">
+              <svg viewBox="0 0 100 65" fill="none" xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: 100%;">
                 <path d="M10 32C16 27 25 24 35 23C47 22 58 25 68 29C78 33 86 40 92 48C84 41 74 36 62 34C50 32 38 32 26 35C20 37 14 40 10 44V32Z" fill="#002561"/>
                 <path d="M4 23C11 17 21 13 32 12C45 10 59 13 70 18C80 23 88 31 92 40C84 32 73 26 60 23C47 20 34 20 22 23C15 25 8 28 4 33V23Z" fill="#007788"/>
                 <path d="M18 41C23 37 31 34 40 33C50 32 60 35 68 38C76 42 83 48 87 55C80 49 71 45 61 43C51 41 40 41 30 44C25 46 21 48 18 51V41Z" fill="#002561"/>
                 <path d="M1 13C9 7 21 3 34 2C48 0 62 3 74 8C85 13 93 21 97 30C89 22 77 17 64 14C51 11 37 11 23 15C15 17 7 21 1 26V13Z" fill="#002561"/>
                 <path d="M28 50C33 46 40 45 47 44C55 43 63 45 70 48C76 52 81 57 84 62C78 58 71 55 63 53C55 51 47 52 39 54C34 56 30 58 28 60V50Z" fill="#007788"/>
               </svg>
-              <div class="text-left leading-none">
-                <span class="text-[15px] font-bold tracking-tight text-slate-900 block" style="font-family: Arial, sans-serif;">Garuda Indonesia</span>
-              </div>
             </div>
 
-            <!-- SkyTeam Ribbon Emblem -->
-            <div class="w-7 h-7 ml-1">
-              <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
-                <circle cx="20" cy="20" r="18" stroke="#002561" stroke-width="2.5" fill="none"/>
-                <path d="M9 22C14 14 26 12 33 17C28 25 16 27 9 22Z" fill="#002561"/>
-                <path d="M12 18C16 11 27 10 32 15C27 21 17 23 12 18Z" fill="#007788"/>
-              </svg>
+            <!-- Identitas Resmi Perusahaan -->
+            <div class="font-sans-gds" style="font-size: 9.5px; line-height: 1.25;">
+              <div style="font-weight: bold; font-size: 11px;">PT GARUDA INDONESIA (PERSERO) Tbk./NPWP 01.001.634.3-093.000</div>
+              <div>JL. Kebon Sirih No. 46A RT. 011 RW. 002 Gambir, Gambir Jakarta Pusat, DKI Jakarta 10110</div>
+              <div style="font-weight: bold;">WWW.GARUDA-INDONESIA.COM</div>
             </div>
           </div>
 
-          <!-- Company Address / Tax Info (Centered) -->
-          <div class="text-[9.5px] text-black leading-tight">
-            <div>PT GARUDA INDONESIA (PERSERO) Tbk./NPWP 01.001.634.3-093.000</div>
-            <div>JL. Kebon Sirih No. 46A RT. 011 RW. 002 Gambir, Gambir Jakarta Pusat, DKI Jakarta 10110</div>
-            <div>WWW.GARUDA-INDONESIA.COM</div>
+          <!-- Kanan: Judul Tebal Rata Kanan -->
+          <div class="font-sans-gds" style="text-align: right;">
+            <div style="font-size: 17px; font-weight: bold; text-transform: none; letter-spacing: -0.3px; color: #000000;">
+              Electronic Ticket Receipt
+            </div>
           </div>
+
         </div>
 
-        <!-- DOCUMENT TITLE (Left Aligned) -->
-        <div class="mb-4">
-          <h1 class="text-[17px] font-bold text-black tracking-tight" style="font-family: Arial, sans-serif;">
-            Electronic Ticket Receipt
-          </h1>
-        </div>
-
-        <!-- SECTION: Booking Reference & Office (2 Columns) -->
-        <div class="grid grid-cols-2 gap-4 mb-4 text-[10.5px]">
-          <div>
-            <div class="font-bold text-[11px]">
-              <span class="ticket-blue">Booking Reference: </span><span id="view-pnr" class="ticket-blue font-bold">EIQ9XU</span>
+        <!-- ================= B. METADATA PENUMPANG & BOOKING ================= -->
+        <div style="margin-bottom: 12px; font-size: 11px; line-height: 1.3;">
+          <!-- Baris 1: Booking Reference & Office -->
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 4px;">
+            <div>
+              <span style="font-weight: bold;">Booking Reference: </span>
+              <span id="view-pnr" style="font-weight: bold; color: #004e9a;">EIQ9XU</span>
+              <div style="font-size: 10px; color: #000000; margin-top: 1px;">At check-in, you must show a photo ID.</div>
             </div>
-            <div class="text-black text-[10px] mt-0.5">
-              At check-in, you must show a photo ID.
+            <div style="text-align: right;">
+              <div><span style="font-weight: bold;">Office: </span><span id="view-office">GA CALL CENTER</span> | Phone: <span id="view-phone">(+62) 0 804 1 807 807</span></div>
+              <div style="font-size: 10px; color: #000000; margin-top: 1px;">JAKARTA</div>
             </div>
           </div>
 
-          <div>
-            <div class="ticket-blue font-bold text-[11px]">Office</div>
-            <div class="text-black text-[10px] leading-tight">
-              <div id="view-office">GA CALL CENTER</div>
-              <div>-</div>
-              <div>-</div>
-              <div>JAKARTA</div>
-              <div>Telephone: <span id="view-phone">(+62) 0 804 1 807 807</span></div>
+          <!-- Baris 2: Passenger & Ticket number -->
+          <div style="display: flex; justify-content: space-between; align-items: baseline; border-top: 1px solid #e5e7eb; padding-top: 4px; margin-top: 4px;">
+            <div>
+              <span style="font-weight: bold;">Passenger: </span>
+              <span id="view-passenger-name" style="font-weight: bold; text-transform: uppercase;">Utama Ahyat Perdana Mr (ADT)</span>
+            </div>
+            <div style="text-align: right;">
+              <span style="font-weight: bold;">Ticket number: </span>
+              <span id="view-ticket-no" style="font-weight: bold; color: #004e9a;">126 2148162267</span>
             </div>
           </div>
         </div>
 
-        <!-- SECTION: Passenger & Ticket Number -->
-        <div class="mb-5">
-          <div class="grid grid-cols-2 gap-4 text-[11px] font-bold pb-1">
-            <div class="ticket-blue">Passenger</div>
-            <div class="ticket-blue">Ticket number</div>
-          </div>
-          <div class="w-full border-t border-slate-300"></div>
-          <div class="grid grid-cols-2 gap-4 text-[11px] font-bold pt-1 pb-1.5">
-            <div id="view-passenger-name" class="text-black uppercase">Utama Ahyat Perdana Mr (ADT)</div>
-            <div id="view-ticket-no" class="ticket-blue"><span class="ticket-mono">126 2148162267</span></div>
-          </div>
-          <div class="w-full border-b border-black"></div>
-        </div>
-
-        <!-- SECTION: Itinerary -->
-        <div class="mb-5">
-          <div class="ticket-blue font-bold text-[13px] mb-1">Itinerary</div>
-          
-          <table class="w-full text-left text-[9.5px] border-collapse" style="border-top: 1px solid #000; border-bottom: 1px solid #000;">
+        <!-- ================= C. TABEL FLIGHT ITINERARY ================= -->
+        <div style="margin-bottom: 12px;">
+          <table>
             <thead>
-              <tr class="font-bold text-black" style="border-bottom: 1px solid #000;">
-                <th class="py-1 pr-1 font-bold">From</th>
-                <th class="py-1 px-1 font-bold">To</th>
-                <th class="py-1 px-1 font-bold">Flight</th>
-                <th class="py-1 px-1 font-bold">Class</th>
-                <th class="py-1 px-1 font-bold">Date</th>
-                <th class="py-1 px-1 font-bold">Departure</th>
-                <th class="py-1 px-1 font-bold">Arrival</th>
-                <th class="py-1 px-1 font-bold">Resa (1)</th>
-                <th class="py-1 px-1 font-bold">NVB(2)</th>
-                <th class="py-1 px-1 font-bold">NVA(3)</th>
-                <th class="py-1 px-1 font-bold">Last check-in</th>
-                <th class="py-1 px-1 font-bold">Baggage (4)</th>
-                <th class="py-1 pl-1 font-bold">Seat</th>
+              <tr>
+                <th style="width: 18%;">From</th>
+                <th style="width: 15%;">To</th>
+                <th style="width: 7%;">Flight</th>
+                <th style="width: 5%;">Class</th>
+                <th style="width: 6%;">Date</th>
+                <th style="width: 8%;">Departure</th>
+                <th style="width: 8%;">Arrival</th>
+                <th style="width: 6%;">Resa (1)</th>
+                <th style="width: 6%;">NVB (2)</th>
+                <th style="width: 6%;">NVA (3)</th>
+                <th style="width: 8%;">Last check-in</th>
+                <th style="width: 7%;">Baggage (4)</th>
+                <th style="width: 5%;">Seat</th>
+                <th style="width: 8%;">Fare Basis</th>
               </tr>
             </thead>
-            <tbody class="text-[9.5px] align-top text-black">
-              <!-- Row 1: Airports, Flight, Times -->
+            <tbody>
               <tr>
-                <td class="pt-1.5 pr-1 font-bold leading-tight" style="width: 17%;">
-                  <div id="view-from-1">JAKARTA</div>
-                  <div id="view-from-2">SOEKARNO</div>
-                  <div id="view-from-3">HATTA INTL</div>
+                <td>
+                  <div id="view-from-airport" style="font-weight: bold;">JAKARTA SOEKARNO HATTA INTL</div>
+                  <div id="view-terminal" style="font-size: 10px;">Terminal 3</div>
                 </td>
-                <td class="pt-1.5 px-1 font-bold leading-tight" style="width: 16%;">
-                  <div id="view-to-1">MEDAN KUALA</div>
-                  <div id="view-to-2">NAMU</div>
+                <td>
+                  <div id="view-to-airport" style="font-weight: bold;">MEDAN KUALANAMU</div>
                 </td>
-                <td class="pt-1.5 px-1 ticket-mono font-bold" id="view-flight">GA0184</td>
-                <td class="pt-1.5 px-1 font-bold" id="view-class">Y</td>
-                <td class="pt-1.5 px-1" id="view-date">25Aug</td>
-                <td class="pt-1.5 px-1 ticket-mono font-bold" id="view-dep">09:30</td>
-                <td class="pt-1.5 px-1 ticket-mono font-bold" id="view-arr">11:55</td>
-                <td class="pt-1.5 px-1" id="view-resa">Ok</td>
-                <td class="pt-1.5 px-1 ticket-mono" id="view-nvb">&nbsp;</td>
-                <td class="pt-1.5 px-1 ticket-mono" id="view-nva">&nbsp;</td>
-                <td class="pt-1.5 px-1 ticket-mono" id="view-last-checkin">08:45</td>
-                <td class="pt-1.5 px-1" id="view-baggage">20K</td>
-                <td class="pt-1.5 pl-1 ticket-mono" id="view-seat">&nbsp;</td>
+                <td id="view-flight" style="font-weight: bold;">GA0184</td>
+                <td id="view-class" style="font-weight: bold; text-align: center;">Y</td>
+                <td id="view-date">25Aug</td>
+                <td id="view-dep" style="font-weight: bold;">09:30</td>
+                <td id="view-arr" style="font-weight: bold;">11:55</td>
+                <td id="view-resa" style="text-align: center;">Ok</td>
+                <td id="view-nvb" style="text-align: center;">-</td>
+                <td id="view-nva" style="text-align: center;">-</td>
+                <td id="view-last-checkin" style="text-align: center;">08:45</td>
+                <td id="view-baggage" style="text-align: center; font-weight: bold;">20K</td>
+                <td id="view-seat" style="text-align: center;">-</td>
+                <td id="view-farebasis" style="font-weight: bold;">YOW</td>
               </tr>
-
-              <!-- Row 2: Terminal & Fare Basis -->
+              <!-- Baris Tambahan Maskapai -->
               <tr>
-                <td class="py-0.5 pr-1 text-[9px]" id="view-terminal">Terminal 3</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td colspan="2" class="py-0.5 text-right font-bold text-[9px] pr-2">Fare Basis</td>
-                <td colspan="3" class="py-0.5 ticket-mono font-bold text-[9px]" id="view-farebasis">YOW</td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-
-              <!-- Row 3: Operated by & Marketed by -->
-              <tr>
-                <td colspan="2" class="pt-0.5 pb-1.5 pr-1 text-[9px]">
-                  <span>Operated by</span>
-                </td>
-                <td colspan="4" class="pt-0.5 pb-1.5 text-[9px]">
-                  <span>GARUDA INDONESIA</span>
-                </td>
-                <td colspan="2" class="pt-0.5 pb-1.5 text-right text-[9px] pr-2">
-                  <span>Marketed by</span>
-                </td>
-                <td colspan="6" class="pt-0.5 pb-1.5 text-[9px]">
-                  <span>GARUDA INDONESIA</span>
+                <td colspan="14" style="background-color: #ffffff; padding: 3px 5px; font-size: 10px;">
+                  Operated by: GARUDA INDONESIA &nbsp;|&nbsp; Marketed by: GARUDA INDONESIA
                 </td>
               </tr>
             </tbody>
           </table>
 
-          <!-- Itinerary legend (1) to (4) -->
-          <div class="text-[8px] text-black leading-tight mt-1">
-            (1) Ok = confirmed (2) NVB = Not valid before (3) NVA = Not valid after (4)Each passenger can check in a specific amount of baggage at no extra cost as indicated above in the column baggage.
+          <!-- Keterangan Bawah Tabel (10px) -->
+          <div style="font-size: 10px; line-height: 1.25; margin-top: 4px; color: #000000;">
+            (1) Ok = confirmed (2) NVB Not valid before (3) NVA = Not valid after (4) Each passenger can check in a specific amount of baggage at no extra cost as indicated above in the column baggage.
           </div>
         </div>
 
-        <!-- SECTION: Receipt -->
-        <div class="mb-4">
-          <div class="ticket-blue font-bold text-[13px] mb-1">Receipt</div>
-          <div class="w-full border-t border-black mb-2"></div>
-
-          <div class="text-[10px] space-y-0.5 text-black">
-            
-            <div class="flex">
-              <span class="w-48 font-bold">Name</span>
-              <span class="font-bold uppercase">: <span id="view-receipt-name">Utama Ahyat Perdana Mr (ADT)</span></span>
-            </div>
-
-            <div class="flex">
-              <span class="w-48 font-bold">Ticket number</span>
-              <span class="ticket-mono">: <span id="view-receipt-ticket">126 2148162267</span></span>
-            </div>
-
-            <div class="flex">
-              <span class="w-48 font-bold">Tour Code</span>
-              <span class="ticket-mono">: <span id="view-tour-code">OTHRZT11150</span></span>
-            </div>
-
-            <div class="flex">
-              <span class="w-48 font-bold">Form of payment</span>
-              <span class="ticket-mono">: NONREF : <span id="view-fop-amt">3319120</span> : IDR</span>
-            </div>
-
-            <div class="flex">
-              <span class="w-48 font-bold">Fare</span>
-              <span class="ticket-mono">: IDR <span id="view-base-fare">1949000</span></span>
-            </div>
-
-            <!-- Taxes Breakdown: 3 Columns Layout 100% Identical -->
-            <div class="flex items-start">
-              <span class="w-48 font-bold">Taxes</span>
-              <div class="flex-1 ticket-mono text-[10px]">
-                <!-- Row 1 Taxes -->
-                <div class="grid grid-cols-3 gap-2">
-                  <div>: IDR &nbsp;<span id="view-tax-yq">539700</span> YQ</div>
-                  <div>IDR &nbsp;<span id="view-tax-yr">359800</span> YR</div>
-                  <div>IDR &nbsp;<span id="view-tax-d5">168720</span> D5</div>
-                </div>
-                <!-- Row 2 Taxes -->
-                <div class="grid grid-cols-3 gap-2 mt-0.5">
-                  <div>&nbsp; IDR &nbsp;<span id="view-tax-id">296900</span> ID</div>
-                  <div>IDR &nbsp;&nbsp;&nbsp;<span id="view-tax-p4">5000</span> P4</div>
-                  <div></div>
-                </div>
-              </div>
-            </div>
-
-            <div class="flex font-bold pt-0.5">
-              <span class="w-48 font-bold">Total Amount</span>
-              <span class="ticket-mono font-bold">: IDR <span id="view-total-amount">3319120</span></span>
-            </div>
-
-            <div class="flex justify-between items-baseline pt-0.5">
-              <div class="flex">
-                <span class="w-48 font-bold">Issuing Airline and date</span>
-                <span>: GARUDA INDONESIA <span id="view-issue-date">25Aug26</span></span>
-              </div>
-              <div class="ticket-mono pr-8">
-                <span class="font-bold">IATA &nbsp;&nbsp;: </span><span id="view-iata">15393943</span>
-              </div>
-            </div>
-
-            <div class="flex">
-              <span class="w-48 font-bold">Restriction(s)/Endorsements</span>
-              <span>: <span id="view-restriction">Condition Applies</span></span>
-            </div>
-
-            <div class="flex">
-              <span class="w-48 font-bold">Fare Calculation</span>
-              <span class="ticket-mono font-bold">: <span id="view-fare-calc">JKT GA KNO1949000.00IDR1949000.00END</span></span>
-            </div>
-
+        <!-- ================= D. RINCIAN RECEIPT & BREAKDOWN PAJAK ================= -->
+        <div style="margin-bottom: 14px; font-size: 11px; line-height: 1.35; border-top: 1px solid #000000; padding-top: 8px;">
+          
+          <div style="display: flex;">
+            <div style="width: 220px; font-weight: bold;">Name</div>
+            <div>: <span id="view-receipt-name" style="font-weight: bold; text-transform: uppercase;">Utama Ahyat Perdana Mr (ADT)</span></div>
           </div>
 
-          <div class="text-[8.5px] text-black mt-2 leading-tight">
+          <div style="display: flex;">
+            <div style="width: 220px; font-weight: bold;">Ticket number</div>
+            <div>: <span id="view-receipt-ticket">126 2148162267</span></div>
+          </div>
+
+          <div style="display: flex;">
+            <div style="width: 220px; font-weight: bold;">Tour Code</div>
+            <div>: <span id="view-tour-code">OTHRZT11150</span></div>
+          </div>
+
+          <div style="display: flex;">
+            <div style="width: 220px; font-weight: bold;">Form of payment</div>
+            <div>: NONREF <span id="view-fop-amt">3319120</span> IDR</div>
+          </div>
+
+          <div style="display: flex;">
+            <div style="width: 220px; font-weight: bold;">Fare</div>
+            <div>: IDR <span id="view-base-fare">1949000</span></div>
+          </div>
+
+          <!-- Taxes format berjajar lurus -->
+          <div style="display: flex;">
+            <div style="width: 220px; font-weight: bold;">Taxes</div>
+            <div>: IDR <span id="view-tax-yq">539700</span> YQ | IDR <span id="view-tax-yr">359800</span> YR | IDR <span id="view-tax-d5">168720</span> D5 | IDR <span id="view-tax-id">296900</span> ID | IDR <span id="view-tax-p4">5000</span> P4</div>
+          </div>
+
+          <div style="display: flex; font-weight: bold; margin-top: 1px;">
+            <div style="width: 220px;">Total Amount</div>
+            <div>: IDR <span id="view-total-amount">3319120</span></div>
+          </div>
+
+          <div style="display: flex; justify-content: space-between;">
+            <div style="display: flex;">
+              <div style="width: 220px; font-weight: bold;">Issuing Airline and date</div>
+              <div>: GARUDA INDONESIA <span id="view-issue-date">25Aug26</span></div>
+            </div>
+            <div>IATA : <span id="view-iata">15393943</span></div>
+          </div>
+
+          <div style="display: flex;">
+            <div style="width: 220px; font-weight: bold;">Restriction(s)/Endorsements</div>
+            <div>: <span id="view-restriction">Condition Applies</span></div>
+          </div>
+
+          <div style="display: flex; align-items: flex-start; margin-top: 3px;">
+            <div style="width: 220px; font-weight: bold; padding-top: 3px;">Fare Calculation</div>
+            <div style="flex: 1;">
+              <div id="view-fare-calc" style="border: 1px solid #cccccc; padding: 3px 6px; display: inline-block; font-weight: bold;">
+                JKT GA KNO 1949000.00IDR1949000.00END
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- ================= E. FOOTER LEGAL & CATATAN PENERBANGAN ================= -->
+        <div class="font-sans-gds" style="font-size: 9.5px; line-height: 1.28; color: #000000; border-top: 1px solid #000000; padding-top: 8px;">
+          
+          <p style="margin-bottom: 6px;">
             The fare that applies on the date of purchase is only valid for the entire itinerary and the specific travel dates mentioned on the ticket.
-          </div>
-          
-          <div class="w-full border-b border-black mt-2 mb-2"></div>
-        </div>
+          </p>
 
-        <!-- CENTER GREETING & CONFIRMATION -->
-        <div class="text-center text-[9px] text-black leading-tight my-2">
-          <div class="font-bold">Garuda Indonesia wishes you a very pleasant trip.</div>
-          <div>This document establishes the creation of your electronic ticket(s) in our computer systems.</div>
-        </div>
-        <div class="w-full border-b border-black my-2"></div>
+          <p style="margin-bottom: 4px; font-weight: bold;">
+            Garuda Indonesia wishes you a very pleasant trip.
+          </p>
 
-        <!-- LEGAL PARAGRAPHS (PAGE 1 FOOTER) -->
-        <div class="text-[8px] text-black leading-tight space-y-2 mt-2">
-          
-          <p class="text-justify font-bold">
+          <p style="margin-bottom: 6px;">
+            This document establishes the creation of your electronic ticket(s) in our computer systems.
+          </p>
+
+          <p style="margin-bottom: 6px; font-weight: bold; text-align: justify;">
             The carriage of certain hazardous materials, like aerosols, fireworks, and flammable liquids, aboard the aircraft is forbidden. If you do not understand these restrictions, further information may be obtained from your airline.
           </p>
 
-          <p class="text-justify">
-            <span class="font-bold">Data Protection Notice:</span> Your personal data will be processed in accordance with the applicable carrier's privacy policy and, if your booking is made via a reservation system provider ( GDS ), with its privacy policy. These are available at http://www.iatatravelcenter.com/privacy or from the carrier or GDS directly. You should read this documentation , which applies to your booking and specifies, for example, how your personal data is collected, stored, used, disclosed and transferred.(applicable for interline carriage)
+          <p style="margin-bottom: 6px; text-align: justify;">
+            <strong>Data Protection Notice:</strong> Your personal data will be processed in accordance with the applicable carrier's privacy policy and, if your booking is made via a reservation system provider ( GDS ), with its privacy policy. These are available at http://www.iatatravelcenter.com/privacy or from the carrier or GDS directly. You should read this documentation , which applies to your booking and specifies, for example, how your personal data is collected, stored, used, disclosed and transferred.(applicable for interline carriage)
           </p>
 
-          <p class="text-justify font-bold">
+          <p style="margin-bottom: 6px; font-weight: bold; text-align: justify;">
             Please bring this receipt, credit card and your identity card on your travel in case required by airport/check-in counter/customs and immigration officials as proof of purchase.
           </p>
 
-          <div>
-            <div class="font-bold">NOTICE :</div>
-            <p class="text-justify">
-              1. Carriage and other services provided by the carrier are subject to the conditions of carriage which are hereby incorporated by reference. These conditions may be
+          <div style="margin-bottom: 6px;">
+            <div style="font-weight: bold;">NOTICE :</div>
+            <p style="text-align: justify; margin-top: 2px;">
+              1. Carriage and other services provided by the carrier are subject to the conditions of carriage which are hereby incorporated by reference. These conditions may be obtained from the issuing carrier.
+            </p>
+            <p style="text-align: justify; margin-top: 2px;">
+              2. PT Garuda Indonesia (Persero) Tbk. is not responsible for any risk and/or compensation occurring from the connecting flight which is not stated in the same ticket number (separate ticket).
+            </p>
+            <p style="text-align: justify; margin-top: 2px;">
+              3. PT Garuda Indonesia (Persero) Tbk. will not accept the passenger through check-in and baggage through check-in process for segment that is not stated in the same ticket number (separate ticket).
+            </p>
+            <p style="text-align: justify; margin-top: 2px;">
+              4. Flight coupons must be used in sequence. If all the segments are not used in sequence, the previous unused flight coupon is either considered as flown or the ticket need to be reconstructed under the conditions of PT Garuda Indonesia (Persero) Tbk.
             </p>
           </div>
 
-        </div>
-
-      </div>
-
-      <!-- ================= PAGE 2 ================= -->
-      <div id="ticket-page-2" class="ticket-page ticket-doc w-full max-w-[780px] bg-white text-black shadow-xl p-8 sm:p-10 border border-slate-300 text-[8.5px] leading-relaxed box-border">
-        
-        <div class="space-y-3 text-black">
-          
-          <!-- Continuation of Notice 1-4 -->
-          <p>
-            obtained from the issuing carrier.
-          </p>
-
-          <p class="font-bold">
-            2. PT Garuda Indonesia (Persero) Tbk. is not responsible for any risk and/or compensation occurring from the connecting flight which is not stated in the same ticket<br>
-            number (separate ticket).
-          </p>
-
-          <p class="font-bold">
-            3. PT Garuda Indonesia (Persero) Tbk. will not accept the passenger through check-in and baggage through check-in process for segment that is not stated in the same<br>
-            ticket number (separate ticket).
-          </p>
-
-          <p class="font-bold">
-            4. Flight coupons must be used in sequence. If all the segments are not used in sequence, the previous unused flight coupon is either considered as flown or the ticket<br>
-            need to be reconstructed under the conditions of PT Garuda Indonesia (Persero) Tbk.
-          </p>
-
-          <!-- DANGEROUS GOODS SECTION -->
-          <div class="pt-2">
-            <div class="font-bold uppercase tracking-wider mb-0.5">DANGEROUS GOODS :</div>
-            <p class="font-bold text-justify">
+          <div>
+            <div style="font-weight: bold;">DANGEROUS GOODS :</div>
+            <p style="text-align: justify; margin-top: 2px; font-weight: bold;">
               For safety reason, dangerous articles such as compressed gases / flammable / nonflammable / poisonous / corrosives / acids / alkalis and wet cell batteries/ etiologic agents / bacteria / viruses etc / explosives munitions / fireworks / flares / radioactive / oxidizing materials or other dangerous goods article must not be carried in passengers baggage.
             </p>
-          </div>
-
-          <!-- ONLINE LINKS -->
-          <div class="pt-2 space-y-1">
-            <div>Copies of the Conditions of Contract can be obtained online here:</div>
-            <div class="text-blue-700">
-              &gt; <a href="https://www.garuda-indonesia.com/condition-of-contract" class="hover:underline">www.garuda-indonesia.com /condition-of-contract</a> (in English)
+            <div style="margin-top: 4px;">
+              <div>Copies of the Conditions of Contract can be obtained online here:</div>
+              <div>&gt; www.garuda-indonesia.com /condition-of-contract (in English)</div>
+              <div>&gt; www.garuda-indonesia.com /perjanjian-peraturan-dalam-negeri (in Bahasa)</div>
             </div>
-            <div class="text-blue-700">
-              &gt; <a href="https://www.garuda-indonesia.com/perjanjian-peraturan-dalam-negeri" class="hover:underline">www.garuda-indonesia.com /perjanjian-peraturan-dalam-negeri</a> (in Bahasa)
+            <div style="margin-top: 4px;">
+              <div>List of Tax Codes Description can be obtained online here:</div>
+              <div>&gt; www.garuda-indonesia.com /taxlist</div>
             </div>
-          </div>
-
-          <div class="pt-2 space-y-1">
-            <div>List of Tax Codes Description can be obtained online here:</div>
-            <div class="text-blue-700">
-              &gt; <a href="https://www.garuda-indonesia.com/taxlist" class="hover:underline">www.garuda-indonesia.com /taxlist</a>
+            <div style="margin-top: 6px; font-weight: bold;">
+              Fly-Hi With Garuda Indonesia
             </div>
-          </div>
-
-          <!-- SLOGAN CLOSING -->
-          <div class="pt-4 font-bold text-[9px] text-slate-900">
-            Fly-Hi With Garuda Indonesia
           </div>
 
         </div>
@@ -764,7 +706,7 @@
       else if (toAirport.toUpperCase().includes("SURABAYA")) destCode = "SUB";
 
       const fareFormatted = `${baseFare}.00`;
-      const autoFareCalc = `${originCode} GA ${destCode}${fareFormatted}IDR${fareFormatted}END`;
+      const autoFareCalc = `${originCode} GA ${destCode} ${fareFormatted}IDR${fareFormatted}END`;
       
       const currentCalcInput = document.getElementById('inp-fare-calc').value;
       if (!currentCalcInput || currentCalcInput.includes('END')) {
@@ -793,38 +735,20 @@
       document.getElementById('view-phone').textContent = phone;
 
       // Flight Itinerary
-      const fromAirport = document.getElementById('inp-from-airport').value.toUpperCase();
-      const toAirport = document.getElementById('inp-to-airport').value.toUpperCase();
-
-      // Split airport into lines if standard Jakarta / Medan
-      if (fromAirport.includes("JAKARTA") && fromAirport.includes("SOEKARNO")) {
-        document.getElementById('view-from-1').textContent = "JAKARTA";
-        document.getElementById('view-from-2').textContent = "SOEKARNO";
-        document.getElementById('view-from-3').textContent = "HATTA INTL";
-      } else {
-        document.getElementById('view-from-1').textContent = fromAirport;
-        document.getElementById('view-from-2').textContent = "";
-        document.getElementById('view-from-3').textContent = "";
-      }
-
-      if (toAirport.includes("MEDAN") && toAirport.includes("NAMU")) {
-        document.getElementById('view-to-1').textContent = "MEDAN KUALA";
-        document.getElementById('view-to-2').textContent = "NAMU";
-      } else {
-        document.getElementById('view-to-1').textContent = toAirport;
-        document.getElementById('view-to-2').textContent = "";
-      }
-
+      document.getElementById('view-from-airport').textContent = document.getElementById('inp-from-airport').value.toUpperCase();
       document.getElementById('view-terminal').textContent = document.getElementById('inp-terminal').value;
+      document.getElementById('view-to-airport').textContent = document.getElementById('inp-to-airport').value.toUpperCase();
       document.getElementById('view-flight').textContent = document.getElementById('inp-flight').value.toUpperCase();
       document.getElementById('view-class').textContent = document.getElementById('inp-class').value.toUpperCase();
       document.getElementById('view-date').textContent = document.getElementById('inp-date').value;
       document.getElementById('view-dep').textContent = document.getElementById('inp-dep').value;
       document.getElementById('view-arr').textContent = document.getElementById('inp-arr').value;
       document.getElementById('view-resa').textContent = document.getElementById('inp-resa').value;
+      document.getElementById('view-nvb').textContent = document.getElementById('inp-nvb').value;
+      document.getElementById('view-nva').textContent = document.getElementById('inp-nva').value;
       document.getElementById('view-last-checkin').textContent = document.getElementById('inp-last-checkin').value;
       document.getElementById('view-baggage').textContent = document.getElementById('inp-baggage').value;
-      document.getElementById('view-seat').textContent = document.getElementById('inp-seat').value || "";
+      document.getElementById('view-seat').textContent = document.getElementById('inp-seat').value;
       document.getElementById('view-farebasis').textContent = document.getElementById('inp-farebasis').value.toUpperCase();
 
       // Receipt codes
@@ -835,7 +759,7 @@
       document.getElementById('view-fare-calc').textContent = document.getElementById('inp-fare-calc').value.toUpperCase();
     }
 
-    // Reset Form to Garuda Indonesia Official Sample (Matches Uploaded PDF Exactly)
+    // Reset Form to Garuda Indonesia Official Sample
     function resetToSample() {
       document.getElementById('inp-pnr').value = "EIQ9XU";
       document.getElementById('inp-ticket-no').value = "126 2148162267";
@@ -845,16 +769,18 @@
 
       document.getElementById('inp-from-airport').value = "JAKARTA SOEKARNO HATTA INTL";
       document.getElementById('inp-terminal').value = "Terminal 3";
-      document.getElementById('inp-to-airport').value = "MEDAN KUALA NAMU";
+      document.getElementById('inp-to-airport').value = "MEDAN KUALANAMU";
       document.getElementById('inp-flight').value = "GA0184";
       document.getElementById('inp-class').value = "Y";
       document.getElementById('inp-date').value = "25Aug";
       document.getElementById('inp-dep').value = "09:30";
       document.getElementById('inp-arr').value = "11:55";
       document.getElementById('inp-resa').value = "Ok";
+      document.getElementById('inp-nvb').value = "-";
+      document.getElementById('inp-nva').value = "-";
       document.getElementById('inp-last-checkin').value = "08:45";
       document.getElementById('inp-baggage').value = "20K";
-      document.getElementById('inp-seat').value = "";
+      document.getElementById('inp-seat').value = "-";
       document.getElementById('inp-farebasis').value = "YOW";
 
       document.getElementById('inp-fare').value = 1949000;
@@ -867,7 +793,7 @@
       document.getElementById('inp-iata').value = "15393943";
       document.getElementById('inp-issue-date').value = "25Aug26";
       document.getElementById('inp-restriction').value = "Condition Applies";
-      document.getElementById('inp-fare-calc').value = "JKT GA KNO1949000.00IDR1949000.00END";
+      document.getElementById('inp-fare-calc').value = "JKT GA KNO 1949000.00IDR1949000.00END";
 
       calculateTaxesAndTotal();
     }
